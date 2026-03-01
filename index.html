@@ -7,223 +7,113 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg:     #0c0c14;
-    --fg:     #e9e5d8;
-    --green:  #4ade80;
-    --yellow: #facc15;
-    --red:    #f87171;
-    --card:   rgba(255,255,255,0.04);
-    --border: rgba(255,255,255,0.10);
+    --bg:#0c0c14; --fg:#e9e5d8;
+    --green:#4ade80; --yellow:#facc15; --red:#f87171;
+    --card:rgba(255,255,255,0.04); --border:rgba(255,255,255,0.10);
   }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body {
-    background:var(--bg); color:var(--fg);
-    font-family:'Lora',Georgia,serif;
-    min-height:100vh; display:flex; justify-content:center;
-  }
-  #app { width:100%; max-width:460px; padding:24px 18px 60px; display:flex; flex-direction:column; gap:14px; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--fg);font-family:'Lora',Georgia,serif;min-height:100vh;display:flex;justify-content:center;}
+  #app{width:100%;max-width:460px;padding:24px 18px 60px;display:flex;flex-direction:column;gap:14px;}
 
-  /* ── screens ── */
-  .screen { display:flex; flex-direction:column; gap:14px; animation:fi .3s ease; }
-  .screen.hidden { display:none; }
-  @keyframes fi { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .screen{display:flex;flex-direction:column;gap:14px;animation:fi .3s ease;}
+  .screen.hidden{display:none;}
+  @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-  /* ── hero ── */
-  .hero { display:flex; flex-direction:column; align-items:center; gap:14px; padding-top:28px; }
-  .hero-flag { font-size:58px; }
-  .hero-title {
-    font-size:38px; font-weight:700; letter-spacing:-1px;
-    background:linear-gradient(135deg,var(--fg) 30%,var(--green));
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  }
-  .hero-sub { font-size:14px; opacity:.5; font-style:italic; }
+  .hero{display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:28px;}
+  .hero-flag{font-size:58px;}
+  .hero-title{font-size:38px;font-weight:700;letter-spacing:-1px;background:linear-gradient(135deg,var(--fg) 30%,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .hero-sub{font-size:14px;opacity:.5;font-style:italic;}
+  .level-cards{display:flex;flex-direction:column;gap:7px;width:100%;margin-top:6px;}
+  .level-card{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid;border-radius:11px;padding:10px 14px;}
+  .level-card .lname{font-weight:700;font-size:13px;}
+  .level-card .ldesc{font-size:11px;opacity:.55;}
 
-  /* ── level cards ── */
-  .level-cards { display:flex; flex-direction:column; gap:7px; width:100%; margin-top:6px; }
-  .level-card {
-    display:flex; align-items:center; gap:11px;
-    background:var(--card); border:1px solid; border-radius:11px; padding:10px 14px;
-  }
-  .level-card .lname { font-weight:700; font-size:13px; }
-  .level-card .ldesc { font-size:11px; opacity:.55; }
+  .btn{background:var(--green);color:#000;border:none;border-radius:11px;padding:13px 24px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;transition:transform .15s,box-shadow .15s;}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(74,222,128,.28);}
+  .btn.yellow{background:var(--yellow);}
+  .ghost{background:transparent;color:var(--fg);border:1px solid var(--border);border-radius:11px;padding:11px 18px;font-size:13px;cursor:pointer;font-family:inherit;width:100%;}
+  .ghost:hover{background:rgba(255,255,255,.06);}
+  .back-btn{background:none;border:none;color:#777;cursor:pointer;font-size:13px;font-family:inherit;padding:0;align-self:flex-start;}
+  .row-btns{display:flex;gap:8px;}
+  .row-btns .ghost{flex:1;}
 
-  /* ── buttons ── */
-  .btn {
-    background:var(--green); color:#000; border:none;
-    border-radius:11px; padding:13px 24px; font-size:15px;
-    font-weight:700; cursor:pointer; font-family:inherit; width:100%;
-    transition:transform .15s,box-shadow .15s;
-  }
-  .btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(74,222,128,.28); }
-  .btn.yellow { background:var(--yellow); }
-  .ghost {
-    background:transparent; color:var(--fg);
-    border:1px solid var(--border); border-radius:11px;
-    padding:11px 18px; font-size:13px; cursor:pointer;
-    font-family:inherit; width:100%;
-  }
-  .ghost:hover { background:rgba(255,255,255,.06); }
-  .back-btn {
-    background:none; border:none; color:#777;
-    cursor:pointer; font-size:13px; font-family:inherit;
-    padding:0; align-self:flex-start;
-  }
-  .row-btns { display:flex; gap:8px; }
-  .row-btns .ghost { flex:1; }
+  label.lbl{font-size:12px;font-weight:700;opacity:.55;text-transform:uppercase;letter-spacing:.8px;}
+  textarea{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:11px;color:var(--fg);font-family:'JetBrains Mono',monospace;font-size:13px;padding:14px;resize:vertical;outline:none;line-height:1.7;width:100%;}
+  textarea:focus{border-color:rgba(74,222,128,.5);}
+  .hint{font-size:11px;opacity:.4;}
+  .chip-row{display:flex;gap:10px;}
+  .chip{flex:1;padding:9px 14px;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;}
+  .chip.on{background:var(--green);color:#000;border-color:var(--green);}
+  .lvl-btn{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:11px;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--fg);cursor:pointer;font-family:inherit;width:100%;text-align:left;transition:background .2s;}
+  .lvl-btn:hover{background:rgba(255,255,255,.05);}
+  .lvl-btn.on{background:rgba(74,222,128,.07);}
+  .lvl-btn .lname{font-weight:700;font-size:13px;}
+  .lvl-btn .ldesc{font-size:11px;opacity:.6;}
+  input[type=range]{-webkit-appearance:none;height:3px;border-radius:2px;background:rgba(255,255,255,.12);width:100%;accent-color:var(--green);}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--green);cursor:pointer;}
 
-  /* ── form elements ── */
-  label.lbl { font-size:12px; font-weight:700; opacity:.55; text-transform:uppercase; letter-spacing:.8px; }
-  textarea {
-    background:rgba(255,255,255,.05); border:1px solid var(--border);
-    border-radius:11px; color:var(--fg);
-    font-family:'JetBrains Mono',monospace; font-size:13px;
-    padding:14px; resize:vertical; outline:none; line-height:1.7; width:100%;
-  }
-  textarea:focus { border-color:rgba(74,222,128,.5); }
-  .hint { font-size:11px; opacity:.4; }
-  .chip-row { display:flex; gap:10px; }
-  .chip {
-    flex:1; padding:9px 14px; border-radius:9px;
-    border:1px solid var(--border);
-    background:transparent; color:var(--fg);
-    cursor:pointer; font-family:inherit; font-size:13px; font-weight:600;
-  }
-  .chip.on { background:var(--green); color:#000; border-color:var(--green); }
-  .lvl-btn {
-    display:flex; align-items:center; gap:12px;
-    padding:11px 14px; border-radius:11px;
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.02);
-    color:var(--fg); cursor:pointer; font-family:inherit; width:100%;
-    text-align:left; transition:background .2s;
-  }
-  .lvl-btn:hover { background:rgba(255,255,255,.05); }
-  .lvl-btn.on { background:rgba(74,222,128,.07); }
-  .lvl-btn .lname { font-weight:700; font-size:13px; }
-  .lvl-btn .ldesc { font-size:11px; opacity:.6; }
-  input[type=range] {
-    -webkit-appearance:none; height:3px; border-radius:2px;
-    background:rgba(255,255,255,.12); width:100%; accent-color:var(--green);
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance:none; width:16px; height:16px;
-    border-radius:50%; background:var(--green); cursor:pointer;
-  }
+  .saved-item{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:9px 13px;cursor:pointer;}
+  .saved-item:hover{background:rgba(255,255,255,.07);}
+  .saved-item .stitle{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;}
+  .saved-item .sdate{font-size:11px;opacity:.4;flex-shrink:0;}
 
-  /* ── saved items ── */
-  .saved-item {
-    display:flex; justify-content:space-between; align-items:center; gap:8px;
-    background:var(--card); border:1px solid var(--border);
-    border-radius:9px; padding:9px 13px; cursor:pointer;
-  }
-  .saved-item:hover { background:rgba(255,255,255,.07); }
-  .saved-item .stitle { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:13px; }
-  .saved-item .sdate { font-size:11px; opacity:.4; flex-shrink:0; }
+  .prac-header{display:flex;justify-content:space-between;align-items:center;}
+  .streak{background:rgba(255,150,0,.15);border:1px solid rgba(255,150,0,.3);border-radius:18px;padding:3px 11px;font-size:13px;font-weight:700;}
+  .pbar{height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+  .pfill{height:100%;background:var(--green);border-radius:3px;transition:width .5s ease;}
+  .level-tag{text-align:center;font-size:11px;opacity:.45;text-transform:uppercase;letter-spacing:1px;}
 
-  /* ── practice header ── */
-  .prac-header { display:flex; justify-content:space-between; align-items:center; }
-  .streak {
-    background:rgba(255,150,0,.15); border:1px solid rgba(255,150,0,.3);
-    border-radius:18px; padding:3px 11px; font-size:13px; font-weight:700;
-  }
-  .pbar { height:3px; background:rgba(255,255,255,.08); border-radius:3px; overflow:hidden; }
-  .pfill { height:100%; background:var(--green); border-radius:3px; transition:width .5s ease; }
-  .level-tag { text-align:center; font-size:11px; opacity:.45; text-transform:uppercase; letter-spacing:1px; }
+  .dlg-box{display:flex;flex-direction:column;gap:11px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px;min-height:160px;max-height:300px;overflow-y:auto;}
+  .dlg-box::-webkit-scrollbar{width:3px;}
+  .dlg-box::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px;}
+  .line-wrap{display:flex;align-items:flex-end;gap:8px;transition:all .3s ease;}
+  .line-wrap.user{justify-content:flex-end;}
+  .line-wrap.future{opacity:.15;}
+  .line-wrap.past{opacity:.42;}
+  .line-wrap.current{transform:scale(1.02);}
+  .dot{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+  .dot.user-dot{background:var(--green);color:#000;}
+  .bubble{max-width:80%;padding:9px 13px;border-radius:13px;font-size:14px;line-height:1.55;}
+  .bubble.partner{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10);border-bottom-left-radius:3px;}
+  .bubble.user{background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.25);color:#c8f7d8;border-bottom-right-radius:3px;}
+  .bubble.faded{opacity:.42;}
+  .masked{background:rgba(250,204,21,.2);border-radius:3px;padding:1px 3px;color:var(--yellow);font-family:'JetBrains Mono',monospace;letter-spacing:2px;}
 
-  /* ── dialogue box ── */
-  .dlg-box {
-    display:flex; flex-direction:column; gap:11px;
-    background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.06);
-    border-radius:14px; padding:14px;
-    min-height:160px; max-height:300px; overflow-y:auto;
-  }
-  .dlg-box::-webkit-scrollbar { width:3px; }
-  .dlg-box::-webkit-scrollbar-thumb { background:rgba(255,255,255,.12); border-radius:2px; }
-  .line-wrap {
-    display:flex; align-items:flex-end; gap:8px;
-    transition:all .3s ease;
-  }
-  .line-wrap.user { justify-content:flex-end; }
-  .line-wrap.future { opacity:.15; }
-  .line-wrap.past   { opacity:.42; }
-  .line-wrap.current { transform:scale(1.02); }
-  .dot {
-    width:26px; height:26px; border-radius:50%;
-    background:rgba(255,255,255,.12);
-    display:flex; align-items:center; justify-content:center;
-    font-size:11px; font-weight:700; flex-shrink:0;
-  }
-  .dot.user-dot { background:var(--green); color:#000; }
-  .bubble {
-    max-width:80%; padding:9px 13px; border-radius:13px;
-    font-size:14px; line-height:1.55;
-  }
-  .bubble.partner { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.10); border-bottom-left-radius:3px; }
-  .bubble.user    { background:rgba(74,222,128,.12); border:1px solid rgba(74,222,128,.25); color:#c8f7d8; border-bottom-right-radius:3px; }
-  .bubble.faded   { opacity:.42; }
-  .masked { background:rgba(250,204,21,.2); border-radius:3px; padding:1px 3px; color:var(--yellow); font-family:'JetBrains Mono',monospace; letter-spacing:2px; }
+  .status-panel{display:flex;flex-direction:column;gap:10px;}
+  .status-box{display:flex;flex-direction:column;align-items:center;gap:10px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:18px 14px;animation:fi .3s ease;}
+  .status-box.listen{border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.05);}
+  .status-box.warn{border-color:rgba(250,204,21,.3);background:rgba(250,204,21,.05);}
+  .status-box.hidden{display:none;}
 
-  /* ── status boxes ── */
-  .status-panel { display:flex; flex-direction:column; gap:10px; }
-  .status-box {
-    display:flex; flex-direction:column; align-items:center; gap:10px;
-    background:rgba(255,255,255,.03); border:1px solid var(--border);
-    border-radius:14px; padding:18px 14px;
-    animation:fi .3s ease;
-  }
-  .status-box.listen {
-    border-color:rgba(74,222,128,.3); background:rgba(74,222,128,.05);
-  }
-  .status-box.hidden { display:none; }
+  .waves{display:flex;gap:5px;align-items:center;}
+  .wave{width:4px;height:20px;background:var(--fg);border-radius:2px;animation:wv .7s ease-in-out infinite;}
+  @keyframes wv{0%,100%{transform:scaleY(.2);opacity:.3}50%{transform:scaleY(1.4);opacity:1}}
 
-  /* TTS wave */
-  .waves { display:flex; gap:5px; align-items:center; }
-  .wave {
-    width:4px; height:20px; background:var(--fg);
-    border-radius:2px; animation:wv .7s ease-in-out infinite;
-  }
-  @keyframes wv {
-    0%,100%{transform:scaleY(.2);opacity:.3}
-    50%{transform:scaleY(1.4);opacity:1}
-  }
+  .mic-ring{width:68px;height:68px;border-radius:50%;background:rgba(74,222,128,.1);border:2px solid rgba(74,222,128,.4);display:flex;align-items:center;justify-content:center;font-size:28px;animation:pulse 1.3s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 16px rgba(74,222,128,0)}}
 
-  /* Mic ring */
-  .mic-ring {
-    width:68px; height:68px; border-radius:50%;
-    background:rgba(74,222,128,.1); border:2px solid rgba(74,222,128,.4);
-    display:flex; align-items:center; justify-content:center;
-    font-size:28px;
-    animation:pulse 1.3s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}
-    50%{box-shadow:0 0 0 16px rgba(74,222,128,0)}
-  }
-  .listen-label { font-weight:700; color:var(--green); font-size:15px; }
-  .listen-sub   { font-size:12px; opacity:.5; margin-top:3px; text-align:center; }
-  .preview {
-    background:rgba(255,255,255,.06); border-radius:9px;
-    padding:7px 13px; font-size:13px; font-style:italic;
-    text-align:center; opacity:.8; max-width:100%;
-    min-height:32px;
-  }
+  .listen-label{font-weight:700;color:var(--green);font-size:15px;}
+  .listen-sub{font-size:12px;opacity:.5;margin-top:3px;text-align:center;}
+  .preview{background:rgba(255,255,255,.06);border-radius:9px;padding:7px 13px;font-size:13px;font-style:italic;text-align:center;opacity:.8;max-width:100%;min-height:32px;}
 
-  /* Done */
-  .done-box {
-    display:flex; flex-direction:column; align-items:center; gap:13px;
-    background:rgba(74,222,128,.05); border:1px solid rgba(74,222,128,.15);
-    border-radius:18px; padding:26px;
-    animation:fi .3s ease;
-  }
-  .done-emoji { font-size:52px; }
-  .done-title { font-size:22px; font-weight:700; }
-  .done-sub   { opacity:.5; font-size:13px; }
+  /* Partner text shown during TTS */
+  .partner-text{font-size:15px;text-align:center;color:var(--fg);opacity:.85;padding:0 8px;line-height:1.6;}
+
+  /* Warning/help box */
+  .warn-title{font-weight:700;color:var(--yellow);font-size:14px;}
+  .warn-text{font-size:12px;opacity:.7;text-align:center;line-height:1.6;}
+  .warn-hint{font-size:12px;opacity:.55;text-align:center;font-style:italic;}
+
+  .done-box{display:flex;flex-direction:column;align-items:center;gap:13px;background:rgba(74,222,128,.05);border:1px solid rgba(74,222,128,.15);border-radius:18px;padding:26px;animation:fi .3s ease;}
+  .done-emoji{font-size:52px;}
+  .done-title{font-size:22px;font-weight:700;}
+  .done-sub{opacity:.5;font-size:13px;}
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ══ HOME ══ -->
+  <!-- HOME -->
   <div id="screen-home" class="screen">
     <div class="hero">
       <div class="hero-flag">🇩🇪</div>
@@ -245,17 +135,17 @@
       </div>
       <button class="btn" onclick="showScreen('setup')">Kezdjük el →</button>
       <button class="ghost" id="saved-toggle-btn" style="display:none" onclick="toggleSaved()">📂 Mentett párbeszédek</button>
-      <div id="saved-list" style="display:none;width:100%;display:flex;flex-direction:column;gap:7px"></div>
+      <div id="saved-list" style="display:none;flex-direction:column;gap:7px;width:100%"></div>
     </div>
   </div>
 
-  <!-- ══ SETUP ══ -->
+  <!-- SETUP -->
   <div id="screen-setup" class="screen hidden">
     <button class="back-btn" onclick="showScreen('home')">← Vissza</button>
     <h2 style="font-size:22px;font-weight:700">Beállítások</h2>
 
     <label class="lbl">Párbeszéd szövege</label>
-    <textarea id="raw-text" rows="9" placeholder="A: Guten Morgen!&#10;B: Hallo! Wie geht es dir?"></textarea>
+    <textarea id="raw-text" rows="9"></textarea>
     <p class="hint">Formátum: <code>A: szöveg</code> / <code>B: szöveg</code> – soronként</p>
 
     <label class="lbl">Szereped</label>
@@ -282,18 +172,19 @@
     <button class="btn" onclick="startPractice()">🎯 Gyakorlás indítása</button>
   </div>
 
-  <!-- ══ PRACTICE ══ -->
+  <!-- PRACTICE -->
   <div id="screen-practice" class="screen hidden">
     <div class="prac-header">
       <button class="back-btn" onclick="stopAll();showScreen('setup')">← Beállítások</button>
       <div class="streak" id="streak-badge">🔥 0</div>
     </div>
     <div class="pbar"><div class="pfill" id="progress-fill" style="width:0%"></div></div>
-    <div class="level-tag" id="level-tag">👁 Szint 1</div>
+    <div class="level-tag" id="level-tag"></div>
 
     <div class="dlg-box" id="dlg-box"></div>
 
     <div class="status-panel">
+
       <!-- partner speaking -->
       <div class="status-box hidden" id="box-speaking">
         <div class="waves">
@@ -303,7 +194,7 @@
           <div class="wave" style="animation-delay:.3s"></div>
           <div class="wave" style="animation-delay:.4s"></div>
         </div>
-        <span style="font-size:13px;opacity:.65">Partner beszél…</span>
+        <div class="partner-text" id="partner-text-display"></div>
       </div>
 
       <!-- user listening -->
@@ -314,6 +205,15 @@
           <div class="listen-sub">Szólalj meg – ha elhallgatsz, automatikusan továbblép</div>
         </div>
         <div class="preview" id="live-text"></div>
+      </div>
+
+      <!-- mic not available – manual next button -->
+      <div class="status-box warn hidden" id="box-warn">
+        <div class="warn-title">⚠️ Mikrofon nem elérhető</div>
+        <div class="warn-text" id="warn-text"></div>
+        <div class="warn-hint">Mondd el hangosan a saját részedet, majd lépj tovább:</div>
+        <div class="preview" id="user-text-hint" style="opacity:1;font-style:normal;color:#c8f7d8;border:1px solid rgba(74,222,128,.2);"></div>
+        <button class="btn" onclick="manualNext()" style="margin-top:4px">✓ Kész, tovább →</button>
       </div>
 
       <div class="row-btns">
@@ -335,73 +235,66 @@
   </div>
 
 </div>
-
 <script>
-// ─────────────────────────────────────────────
-// State
-// ─────────────────────────────────────────────
-let dialogue   = [];
-let userRole   = "A";
-let level      = 1;
-let lineIdx    = 0;
-let streak     = 0;
-let engineBusy = false;
-let currentRec = null;
-let ttsRate    = 0.85;
-let savedList  = [];
+// ── State ──────────────────────────────────────────────────────────────────
+var dialogue   = [];
+var userRole   = 'A';
+var level      = 1;
+var lineIdx    = 0;
+var streak     = 0;
+var engineBusy = false;
+var currentRec = null;
+var ttsRate    = 0.85;
+var savedList  = [];
+var voicesReady = false;
 
-const SAMPLE = `A: Guten Morgen! Wie geht es dir?
-B: Mir geht es gut, danke. Und dir?
-A: Auch gut. Was machst du heute?
-B: Ich gehe zur Arbeit. Und du?
-A: Ich lerne Deutsch. Es macht Spaß!
-B: Das ist wunderbar! Viel Erfolg!`;
+var SAMPLE = 'A: Guten Morgen! Wie geht es dir?\nB: Mir geht es gut, danke. Und dir?\nA: Auch gut. Was machst du heute?\nB: Ich gehe zur Arbeit. Und du?\nA: Ich lerne Deutsch. Es macht Spaß!\nB: Das ist wunderbar! Viel Erfolg!';
 
-// ─────────────────────────────────────────────
-// Init
-// ─────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+// ── Init ───────────────────────────────────────────────────────────────────
+window.onload = function() {
   document.getElementById('raw-text').value = SAMPLE;
   loadSaved();
   updateRoleChips();
-  updateLevelButtons();
-});
 
-// ─────────────────────────────────────────────
-// Screen navigation
-// ─────────────────────────────────────────────
+  // Pre-load voices
+  if (window.speechSynthesis) {
+    var voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      voicesReady = true;
+    } else {
+      window.speechSynthesis.addEventListener('voiceschanged', function() {
+        voicesReady = true;
+      });
+    }
+  }
+};
+
+// ── Screens ────────────────────────────────────────────────────────────────
 function showScreen(name) {
-  ['home','setup','practice'].forEach(s => {
-    const el = document.getElementById('screen-'+s);
-    if (s === name) { el.classList.remove('hidden'); }
-    else            { el.classList.add('hidden'); }
+  ['home','setup','practice'].forEach(function(s) {
+    var el = document.getElementById('screen-' + s);
+    if (s === name) el.classList.remove('hidden');
+    else el.classList.add('hidden');
   });
 }
 
-// ─────────────────────────────────────────────
-// Saved dialogues
-// ─────────────────────────────────────────────
+// ── Saved ──────────────────────────────────────────────────────────────────
 function loadSaved() {
-  try { savedList = JSON.parse(localStorage.getItem('de_dlg') || '[]'); } catch { savedList = []; }
-  renderSavedHome();
-}
-
-function renderSavedHome() {
-  const btn = document.getElementById('saved-toggle-btn');
+  try { savedList = JSON.parse(localStorage.getItem('de_dlg') || '[]'); } catch(e) { savedList = []; }
+  var btn = document.getElementById('saved-toggle-btn');
   btn.style.display = savedList.length ? 'block' : 'none';
-  btn.textContent = `📂 Mentett párbeszédek (${savedList.length})`;
+  btn.textContent = '📂 Mentett párbeszédek (' + savedList.length + ')';
 }
 
 function toggleSaved() {
-  const el = document.getElementById('saved-list');
-  const visible = el.style.display !== 'none' && el.style.display !== '';
-  if (visible) { el.style.display = 'none'; return; }
+  var el = document.getElementById('saved-list');
+  if (el.style.display === 'flex') { el.style.display = 'none'; return; }
   el.innerHTML = '';
-  savedList.forEach((item, i) => {
-    const d = document.createElement('div');
+  savedList.forEach(function(item) {
+    var d = document.createElement('div');
     d.className = 'saved-item';
-    d.innerHTML = `<span class="stitle">${item.title}</span><span class="sdate">${item.date}</span>`;
-    d.onclick = () => {
+    d.innerHTML = '<span class="stitle">' + item.title + '</span><span class="sdate">' + item.date + '</span>';
+    d.onclick = function() {
       document.getElementById('raw-text').value = item.raw;
       el.style.display = 'none';
       updateRoleChips();
@@ -410,227 +303,282 @@ function toggleSaved() {
     el.appendChild(d);
   });
   el.style.display = 'flex';
-  el.style.flexDirection = 'column';
-  el.style.gap = '7px';
 }
 
 function maybeSave(raw, dlg) {
-  if (!savedList.find(x => x.raw === raw)) {
-    const title = dlg[0].text.slice(0,38) + '…';
-    const date  = new Date().toLocaleDateString('hu');
-    savedList = [{raw, title, date}, ...savedList].slice(0, 10);
+  if (!savedList.find(function(x){ return x.raw === raw; })) {
+    var title = dlg[0].text.slice(0,38) + '…';
+    var date  = new Date().toLocaleDateString('hu');
+    savedList = [{raw:raw, title:title, date:date}].concat(savedList).slice(0,10);
     localStorage.setItem('de_dlg', JSON.stringify(savedList));
-    renderSavedHome();
+    loadSaved();
   }
 }
 
-// ─────────────────────────────────────────────
-// Setup helpers
-// ─────────────────────────────────────────────
+// ── Setup ──────────────────────────────────────────────────────────────────
 function getSpeakers() {
-  const raw = document.getElementById('raw-text').value;
-  const found = [];
-  raw.split('\n').forEach(l => {
-    const m = l.trim().match(/^([A-Z]):/);
-    if (m && !found.includes(m[1])) found.push(m[1]);
+  var raw   = document.getElementById('raw-text').value;
+  var found = [];
+  raw.split('\n').forEach(function(l) {
+    var m = l.trim().match(/^([A-Z]):/);
+    if (m && found.indexOf(m[1]) === -1) found.push(m[1]);
   });
   return found.length ? found : ['A','B'];
 }
 
 function updateRoleChips() {
-  const speakers = getSpeakers();
-  if (!speakers.includes(userRole)) userRole = speakers[0];
-  const row = document.getElementById('role-chips');
+  var speakers = getSpeakers();
+  if (speakers.indexOf(userRole) === -1) userRole = speakers[0];
+  var row = document.getElementById('role-chips');
   row.innerHTML = '';
-  speakers.forEach(sp => {
-    const b = document.createElement('button');
+  speakers.forEach(function(sp) {
+    var b = document.createElement('button');
     b.className = 'chip' + (sp === userRole ? ' on' : '');
     b.textContent = 'Szereplő ' + sp;
-    b.onclick = () => { userRole = sp; updateRoleChips(); };
+    b.onclick = function() { userRole = sp; updateRoleChips(); };
     row.appendChild(b);
   });
 }
 
-document.getElementById('raw-text')?.addEventListener('input', updateRoleChips);
+document.addEventListener('DOMContentLoaded', function() {
+  var ta = document.getElementById('raw-text');
+  if (ta) ta.addEventListener('input', updateRoleChips);
+});
 
 function selectLevel(n) {
   level = n;
-  updateLevelButtons();
-}
-
-function updateLevelButtons() {
-  [1,2,3].forEach(n => {
-    const el = document.getElementById('lvl-'+n);
-    if (!el) return;
-    el.classList.toggle('on', n === level);
+  [1,2,3].forEach(function(i) {
+    document.getElementById('lvl-'+i).classList.toggle('on', i===n);
   });
 }
 
-// ─────────────────────────────────────────────
-// Parse dialogue
-// ─────────────────────────────────────────────
+// ── Parse ──────────────────────────────────────────────────────────────────
 function parseDialogue(raw) {
-  return raw.split('\n')
-    .map(l => l.trim())
-    .filter(Boolean)
-    .reduce((acc, line) => {
-      const m = line.match(/^([A-Z]):\s*(.+)$/);
+  return raw.split('\n').map(function(l){ return l.trim(); }).filter(Boolean)
+    .reduce(function(acc, line) {
+      var m = line.match(/^([A-Z]):\s*(.+)$/);
       if (m) acc.push({ speaker: m[1], text: m[2] });
       return acc;
     }, []);
 }
 
 function maskWords(text) {
-  return text.split(' ').map(word => {
-    const clean = word.replace(/[^a-zA-ZäöüÄÖÜß]/g, '');
-    const masked = clean.length > 4 && Math.random() < 0.5;
-    return { word, masked };
+  return text.split(' ').map(function(word) {
+    var clean = word.replace(/[^a-zA-ZäöüÄÖÜß]/g,'');
+    return { word: word, masked: clean.length > 4 && Math.random() < 0.5 };
   });
 }
 
-// ─────────────────────────────────────────────
-// TTS
-// ─────────────────────────────────────────────
+// ── TTS ────────────────────────────────────────────────────────────────────
+function getBestGermanVoice() {
+  var voices = window.speechSynthesis.getVoices();
+  return voices.find(function(v){ return v.lang === 'de-DE'; })
+      || voices.find(function(v){ return v.lang.startsWith('de'); })
+      || null;
+}
+
 function speakGerman(text, rate, onDone) {
-  const synth = window.speechSynthesis;
-  if (!synth) { onDone(); return; }
+  var synth = window.speechSynthesis;
+  if (!synth) { onDone(false); return; }
+
+  // Cancel any ongoing speech
   synth.cancel();
 
   function doSpeak() {
-    const u    = new SpeechSynthesisUtterance(text);
-    u.lang     = 'de-DE';
-    u.rate     = rate;
-    u.pitch    = 1;
-    u.volume   = 1;
+    var u    = new SpeechSynthesisUtterance(text);
+    u.lang   = 'de-DE';
+    u.rate   = rate;
+    u.pitch  = 1;
+    u.volume = 1;
 
-    const voices = synth.getVoices();
-    const voice  = voices.find(v => v.lang === 'de-DE')
-                || voices.find(v => v.lang.startsWith('de'));
+    var voice = getBestGermanVoice();
     if (voice) u.voice = voice;
 
-    u.onend   = () => onDone();
-    u.onerror = (e) => { console.warn('TTS err', e.error); onDone(); };
-    synth.speak(u);
+    var finished = false;
+    function finish(ok) {
+      if (finished) return;
+      finished = true;
+      onDone(ok);
+    }
+
+    u.onstart = function() { /* speaking started OK */ };
+    u.onend   = function() { finish(true); };
+    u.onerror = function(e) {
+      console.warn('TTS error:', e.error);
+      finish(false);
+    };
+
+    // Chrome bug fix: use setTimeout after cancel
+    setTimeout(function(){ synth.speak(u); }, 100);
+
+    // Safety timeout: if onend never fires (some browsers), advance after text duration estimate
+    var estimatedMs = Math.max(3000, text.length * 80);
+    setTimeout(function() { finish(false); }, estimatedMs);
   }
 
-  // voices may not be loaded yet
-  if (synth.getVoices().length === 0) {
-    synth.addEventListener('voiceschanged', doSpeak, { once: true });
+  // Wait for voices if not ready yet
+  var voices = synth.getVoices();
+  if (voices.length > 0) {
+    doSpeak();
   } else {
-    setTimeout(doSpeak, 80);
+    synth.addEventListener('voiceschanged', function handler() {
+      synth.removeEventListener('voiceschanged', handler);
+      doSpeak();
+    });
+    // Extra safety: if voiceschanged never fires
+    setTimeout(function() {
+      if (!voicesReady) doSpeak();
+    }, 1500);
   }
 }
 
-// ─────────────────────────────────────────────
-// Speech Recognition – single shot
-// ─────────────────────────────────────────────
-function listenOnce(onDone) {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+// ── Speech Recognition ─────────────────────────────────────────────────────
+function listenOnce(userLineText, onDone) {
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) {
-    alert('Beszédfelismerés csak Chrome-ban működik!');
-    onDone('');
+    showWarnBox(userLineText, 'A böngésző nem támogatja a beszédfelismerést. Chrome-ot használj!');
     return null;
   }
 
-  const rec          = new SR();
-  rec.lang           = 'de-DE';
-  rec.continuous     = false;
+  var rec          = new SR();
+  rec.lang         = 'de-DE';
+  rec.continuous   = false;
   rec.interimResults = true;
 
-  let finalText = '';
-  let committed = false;
+  var finalText = '';
+  var committed = false;
 
   function commit() {
     if (committed) return;
     committed = true;
     currentRec = null;
+    hideWarnBox();
     onDone(finalText);
   }
 
-  rec.onresult = (e) => {
-    let interim = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-      const t = e.results[i][0].transcript;
+  rec.onresult = function(e) {
+    var interim = '';
+    for (var i = e.resultIndex; i < e.results.length; i++) {
+      var t = e.results[i][0].transcript;
       if (e.results[i].isFinal) finalText += t;
       else interim = t;
     }
-    document.getElementById('live-text').textContent = finalText || interim;
+    var el = document.getElementById('live-text');
+    if (el) el.textContent = finalText || interim;
   };
 
-  rec.onend   = () => commit();
-  rec.onerror = (e) => { console.warn('SR', e.error); commit(); };
+  rec.onend = function() { commit(); };
 
-  rec.start();
+  rec.onerror = function(e) {
+    console.warn('SR error:', e.error);
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+      committed = true;
+      currentRec = null;
+      showWarnBox(userLineText, 'Mikrofon hozzáférés megtagadva. Engedélyezd a böngészőben, vagy kattints a "Kész, tovább" gombra.');
+    } else {
+      commit();
+    }
+  };
+
+  try {
+    rec.start();
+  } catch(e) {
+    showWarnBox(userLineText, 'Nem sikerült elindítani a mikrofont: ' + e.message);
+    return null;
+  }
   return rec;
 }
 
-// ─────────────────────────────────────────────
-// Practice engine
-// ─────────────────────────────────────────────
+// ── Warn box (mic unavailable) ─────────────────────────────────────────────
+function showWarnBox(userLineText, reason) {
+  setStatusBox('warn');
+  document.getElementById('warn-text').textContent = reason;
+  // Show the user's line so they can read it aloud manually
+  var hint = document.getElementById('user-text-hint');
+  if (hint) hint.textContent = userLineText || '';
+}
+
+function hideWarnBox() {
+  // will be hidden by setStatusBox
+}
+
+function manualNext() {
+  if (currentRec) { try { currentRec.abort(); } catch(e){} currentRec = null; }
+  engineBusy = false;
+  streak++;
+  document.getElementById('streak-badge').textContent = '🔥 ' + streak;
+  setStatusBox('idle');
+  lineIdx++;
+  setTimeout(runLine, 200);
+}
+
+// ── Practice engine ────────────────────────────────────────────────────────
 function startPractice() {
-  const raw = document.getElementById('raw-text').value;
-  const dlg = parseDialogue(raw);
+  var raw = document.getElementById('raw-text').value;
+  var dlg = parseDialogue(raw);
   if (!dlg.length) { alert('Nem sikerült értelmezni. Formátum: A: szöveg'); return; }
 
-  // IMPORTANT: unlock audio on this user gesture
-  const silent  = new SpeechSynthesisUtterance(' ');
+  // Unlock audio on this user gesture
+  var silent  = new SpeechSynthesisUtterance(' ');
   silent.volume = 0;
   silent.lang   = 'de-DE';
   window.speechSynthesis.speak(silent);
 
-  ttsRate   = parseFloat(document.getElementById('rate-slider').value);
-  dialogue  = dlg;
-  lineIdx   = 0;
-  streak    = 0;
+  ttsRate    = parseFloat(document.getElementById('rate-slider').value);
+  dialogue   = dlg;
+  lineIdx    = 0;
+  streak     = 0;
   engineBusy = false;
   currentRec = null;
 
   maybeSave(raw, dlg);
   updateRoleChips();
 
-  // UI
   document.getElementById('streak-badge').textContent = '🔥 0';
   document.getElementById('progress-fill').style.width = '0%';
-  const lvlLabels = {1:'👁 Szint 1 – Teljes láthatóság', 2:'✏️ Szint 2 – Hiányos szöveg', 3:'🧠 Szint 3 – Emlékezetből'};
+  var lvlLabels = {1:'👁 Szint 1 – Teljes láthatóság', 2:'✏️ Szint 2 – Hiányos szöveg', 3:'🧠 Szint 3 – Emlékezetből'};
   document.getElementById('level-tag').textContent = lvlLabels[level];
   document.getElementById('done-box').classList.add('hidden');
   setStatusBox('idle');
   renderDialogue();
   showScreen('practice');
 
-  // Start after a short delay so the screen renders first
-  setTimeout(runLine, 600);
+  setTimeout(runLine, 700);
 }
 
 function runLine() {
   if (engineBusy) return;
   engineBusy = true;
 
-  const line = dialogue[lineIdx];
+  var line = dialogue[lineIdx];
   if (!line) { showDone(); engineBusy = false; return; }
 
   updateProgress();
   renderDialogue();
 
   if (line.speaker !== userRole) {
-    // ── Partner speaks ──
+    // ── Partner's line → TTS ──
     setStatusBox('speaking');
-    speakGerman(line.text, ttsRate, () => {
+    // Always show the partner's text while speaking
+    var ptxt = document.getElementById('partner-text-display');
+    if (ptxt) ptxt.textContent = line.text;
+
+    speakGerman(line.text, ttsRate, function(ok) {
       engineBusy = false;
       lineIdx++;
-      setTimeout(runLine, 400);
+      setTimeout(runLine, 500);
     });
-  } else {
-    // ── User's turn ──
-    setStatusBox('listening');
-    document.getElementById('live-text').textContent = '';
 
-    setTimeout(() => {
-      currentRec = listenOnce((spokenText) => {
-        // advance regardless of what was said
+  } else {
+    // ── User's line → listen ──
+    setStatusBox('listening');
+    var liveEl = document.getElementById('live-text');
+    if (liveEl) liveEl.textContent = '';
+
+    setTimeout(function() {
+      currentRec = listenOnce(line.text, function(spokenText) {
         streak++;
         document.getElementById('streak-badge').textContent = '🔥 ' + streak;
-        setStatusBox('idle');
         engineBusy = false;
         lineIdx++;
         setTimeout(runLine, 300);
@@ -640,11 +588,11 @@ function runLine() {
 }
 
 function skipLine() {
-  window.speechSynthesis?.cancel();
+  window.speechSynthesis && window.speechSynthesis.cancel();
   if (currentRec) { try { currentRec.abort(); } catch(e){} currentRec = null; }
   engineBusy = false;
-  lineIdx++;
   setStatusBox('idle');
+  lineIdx++;
   setTimeout(runLine, 200);
 }
 
@@ -663,74 +611,72 @@ function restartPractice() {
 
 function nextLevel() {
   level = Math.min(level + 1, 3);
-  updateLevelButtons();
-  const lvlLabels = {1:'👁 Szint 1 – Teljes láthatóság', 2:'✏️ Szint 2 – Hiányos szöveg', 3:'🧠 Szint 3 – Emlékezetből'};
+  selectLevel(level);
+  var lvlLabels = {1:'👁 Szint 1', 2:'✏️ Szint 2', 3:'🧠 Szint 3'};
   document.getElementById('level-tag').textContent = lvlLabels[level];
   document.getElementById('done-box').classList.add('hidden');
   restartPractice();
 }
 
 function replayPartner() {
-  const prev = dialogue.slice(0, lineIdx).reverse().find(l => l.speaker !== userRole);
-  if (prev) speakGerman(prev.text, ttsRate, () => {});
+  var prev = null;
+  for (var i = lineIdx - 1; i >= 0; i--) {
+    if (dialogue[i].speaker !== userRole) { prev = dialogue[i]; break; }
+  }
+  if (prev) speakGerman(prev.text, ttsRate, function(){});
 }
 
 function stopAll() {
-  window.speechSynthesis?.cancel();
+  window.speechSynthesis && window.speechSynthesis.cancel();
   if (currentRec) { try { currentRec.abort(); } catch(e){} currentRec = null; }
   engineBusy = false;
   setStatusBox('idle');
 }
 
-// ─────────────────────────────────────────────
-// UI rendering
-// ─────────────────────────────────────────────
+// ── UI ─────────────────────────────────────────────────────────────────────
 function setStatusBox(state) {
   document.getElementById('box-speaking').classList.toggle('hidden', state !== 'speaking');
   document.getElementById('box-listening').classList.toggle('hidden', state !== 'listening');
+  document.getElementById('box-warn').classList.toggle('hidden', state !== 'warn');
 }
 
 function updateProgress() {
-  const pct = dialogue.length ? (lineIdx / dialogue.length) * 100 : 0;
+  var pct = dialogue.length ? (lineIdx / dialogue.length) * 100 : 0;
   document.getElementById('progress-fill').style.width = pct + '%';
 }
 
 function renderDialogue() {
-  const box = document.getElementById('dlg-box');
+  var box = document.getElementById('dlg-box');
   box.innerHTML = '';
 
-  dialogue.forEach((line, i) => {
-    const isUser   = line.speaker === userRole;
-    const isCur    = i === lineIdx;
-    const isPast   = i < lineIdx;
-    const isFuture = i > lineIdx;
+  dialogue.forEach(function(line, i) {
+    var isUser   = line.speaker === userRole;
+    var isCur    = i === lineIdx;
+    var isPast   = i < lineIdx;
+    var isFuture = i > lineIdx;
 
-    const wrap = document.createElement('div');
+    var wrap = document.createElement('div');
     wrap.className = 'line-wrap'
       + (isUser   ? ' user'    : '')
       + (isCur    ? ' current' : '')
       + (isPast   ? ' past'    : '')
       + (isFuture ? ' future'  : '');
-    if (isCur) wrap.classList.add('active-line');
 
-    // speaker dot (partner left, user right)
     if (!isUser) {
-      const dot = document.createElement('div');
+      var dot = document.createElement('div');
       dot.className = 'dot';
       dot.textContent = line.speaker;
       wrap.appendChild(dot);
     }
 
-    // bubble
-    const bub = document.createElement('div');
+    var bub = document.createElement('div');
     bub.className = 'bubble ' + (isUser ? 'user' : 'partner');
     if (isCur && isUser && level === 1) bub.classList.add('faded');
 
     if (isCur && isUser && level === 2) {
-      // masked words
-      maskWords(line.text).forEach(w => {
+      maskWords(line.text).forEach(function(w) {
         if (w.masked) {
-          const sp = document.createElement('span');
+          var sp = document.createElement('span');
           sp.className = 'masked';
           sp.textContent = '_'.repeat(Math.max(w.word.replace(/[^a-zA-ZäöüÄÖÜß]/g,'').length, 3));
           bub.appendChild(sp);
@@ -740,7 +686,7 @@ function renderDialogue() {
         bub.appendChild(document.createTextNode(' '));
       });
     } else if (isCur && isUser && level === 3) {
-      const em = document.createElement('em');
+      var em = document.createElement('em');
       em.style.opacity = '.35';
       em.textContent = 'Emlékezetből…';
       bub.appendChild(em);
@@ -751,26 +697,25 @@ function renderDialogue() {
     wrap.appendChild(bub);
 
     if (isUser) {
-      const dot = document.createElement('div');
-      dot.className = 'dot user-dot';
-      dot.textContent = line.speaker;
-      wrap.appendChild(dot);
+      var udot = document.createElement('div');
+      udot.className = 'dot user-dot';
+      udot.textContent = line.speaker;
+      wrap.appendChild(udot);
     }
 
     box.appendChild(wrap);
   });
 
-  // scroll to current
-  const active = box.querySelector('.active-line');
-  active?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // scroll to current line
+  var active = box.querySelector('.current');
+  if (active) active.scrollIntoView({ behavior:'smooth', block:'center' });
 }
 
 function showDone() {
   setStatusBox('idle');
   document.getElementById('progress-fill').style.width = '100%';
-  document.getElementById('done-sub').textContent = `Streak: 🔥 ${streak} · Szint: ${level}/3`;
-  const nxt = document.getElementById('next-level-btn');
-  nxt.style.display = level < 3 ? 'block' : 'none';
+  document.getElementById('done-sub').textContent = 'Streak: 🔥 ' + streak + ' · Szint: ' + level + '/3';
+  document.getElementById('next-level-btn').style.display = level < 3 ? 'block' : 'none';
   document.getElementById('done-box').classList.remove('hidden');
 }
 </script>
