@@ -2,721 +2,750 @@
 <html lang="hu">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>DeutschDialog</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --bg:#0c0c14; --fg:#e9e5d8;
-    --green:#4ade80; --yellow:#facc15; --red:#f87171;
-    --card:rgba(255,255,255,0.04); --border:rgba(255,255,255,0.10);
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{background:var(--bg);color:var(--fg);font-family:'Lora',Georgia,serif;min-height:100vh;display:flex;justify-content:center;}
-  #app{width:100%;max-width:460px;padding:24px 18px 60px;display:flex;flex-direction:column;gap:14px;}
+:root{--bg:#0c0c14;--fg:#e9e5d8;--green:#4ade80;--yellow:#facc15;--red:#f87171;--border:rgba(255,255,255,0.10);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--fg);font-family:'Lora',Georgia,serif;min-height:100vh;display:flex;justify-content:center;}
+#app{width:100%;max-width:480px;padding:20px 16px 60px;display:flex;flex-direction:column;gap:12px;}
 
-  .screen{display:flex;flex-direction:column;gap:14px;animation:fi .3s ease;}
-  .screen.hidden{display:none;}
-  @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.screen{display:flex;flex-direction:column;gap:12px;}
+.screen.hidden{display:none;}
 
-  .hero{display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:28px;}
-  .hero-flag{font-size:58px;}
-  .hero-title{font-size:38px;font-weight:700;letter-spacing:-1px;background:linear-gradient(135deg,var(--fg) 30%,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-  .hero-sub{font-size:14px;opacity:.5;font-style:italic;}
-  .level-cards{display:flex;flex-direction:column;gap:7px;width:100%;margin-top:6px;}
-  .level-card{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid;border-radius:11px;padding:10px 14px;}
-  .level-card .lname{font-weight:700;font-size:13px;}
-  .level-card .ldesc{font-size:11px;opacity:.55;}
+/* Hero */
+.hero{display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:24px;}
+.hero h1{font-size:36px;font-weight:700;letter-spacing:-1px;background:linear-gradient(135deg,var(--fg) 30%,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero p{font-size:13px;opacity:.5;font-style:italic;}
+.intro-cards{display:flex;flex-direction:column;gap:6px;width:100%;margin-top:4px;}
+.intro-card{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid;border-radius:10px;padding:9px 13px;font-size:13px;}
+.intro-card b{font-size:12px;}
+.intro-card small{font-size:11px;opacity:.55;}
 
-  .btn{background:var(--green);color:#000;border:none;border-radius:11px;padding:13px 24px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;transition:transform .15s,box-shadow .15s;}
-  .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(74,222,128,.28);}
-  .btn.yellow{background:var(--yellow);}
-  .ghost{background:transparent;color:var(--fg);border:1px solid var(--border);border-radius:11px;padding:11px 18px;font-size:13px;cursor:pointer;font-family:inherit;width:100%;}
-  .ghost:hover{background:rgba(255,255,255,.06);}
-  .back-btn{background:none;border:none;color:#777;cursor:pointer;font-size:13px;font-family:inherit;padding:0;align-self:flex-start;}
-  .row-btns{display:flex;gap:8px;}
-  .row-btns .ghost{flex:1;}
+/* Buttons */
+.btn{background:var(--green);color:#000;border:none;border-radius:10px;padding:13px 20px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;transition:opacity .15s,transform .15s;}
+.btn:hover{opacity:.88;transform:translateY(-1px);}
+.btn:active{transform:translateY(0);}
+.btn.yellow{background:var(--yellow);}
+.btn.red{background:var(--red);}
+.btn.gray{background:rgba(255,255,255,.1);color:var(--fg);}
+.ghost{background:transparent;color:var(--fg);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;cursor:pointer;font-family:inherit;width:100%;}
+.ghost:hover{background:rgba(255,255,255,.06);}
+.back{background:none;border:none;color:#666;cursor:pointer;font-size:13px;font-family:inherit;padding:0;align-self:flex-start;}
+.row{display:flex;gap:8px;}
+.row .ghost,.row .btn{flex:1;}
 
-  label.lbl{font-size:12px;font-weight:700;opacity:.55;text-transform:uppercase;letter-spacing:.8px;}
-  textarea{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:11px;color:var(--fg);font-family:'JetBrains Mono',monospace;font-size:13px;padding:14px;resize:vertical;outline:none;line-height:1.7;width:100%;}
-  textarea:focus{border-color:rgba(74,222,128,.5);}
-  .hint{font-size:11px;opacity:.4;}
-  .chip-row{display:flex;gap:10px;}
-  .chip{flex:1;padding:9px 14px;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;}
-  .chip.on{background:var(--green);color:#000;border-color:var(--green);}
-  .lvl-btn{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:11px;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--fg);cursor:pointer;font-family:inherit;width:100%;text-align:left;transition:background .2s;}
-  .lvl-btn:hover{background:rgba(255,255,255,.05);}
-  .lvl-btn.on{background:rgba(74,222,128,.07);}
-  .lvl-btn .lname{font-weight:700;font-size:13px;}
-  .lvl-btn .ldesc{font-size:11px;opacity:.6;}
-  input[type=range]{-webkit-appearance:none;height:3px;border-radius:2px;background:rgba(255,255,255,.12);width:100%;accent-color:var(--green);}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--green);cursor:pointer;}
+/* Form */
+.lbl{font-size:11px;font-weight:700;opacity:.5;text-transform:uppercase;letter-spacing:.9px;}
+textarea{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--fg);font-family:'JetBrains Mono',monospace;font-size:13px;padding:12px;resize:vertical;outline:none;line-height:1.7;width:100%;}
+textarea:focus{border-color:rgba(74,222,128,.5);}
+.hint{font-size:11px;opacity:.38;}
+.chips{display:flex;gap:8px;}
+.chip{flex:1;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;}
+.chip.on{background:var(--green);color:#000;border-color:var(--green);}
+.lvl-btn{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--fg);cursor:pointer;font-family:inherit;width:100%;text-align:left;}
+.lvl-btn:hover{background:rgba(255,255,255,.05);}
+.lvl-btn.on{background:rgba(74,222,128,.07);}
+.lvl-btn .ln{font-weight:700;font-size:13px;}
+.lvl-btn .ld{font-size:11px;opacity:.6;}
+input[type=range]{-webkit-appearance:none;height:3px;border-radius:2px;background:rgba(255,255,255,.12);width:100%;accent-color:var(--green);}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--green);cursor:pointer;}
 
-  .saved-item{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:9px 13px;cursor:pointer;}
-  .saved-item:hover{background:rgba(255,255,255,.07);}
-  .saved-item .stitle{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;}
-  .saved-item .sdate{font-size:11px;opacity:.4;flex-shrink:0;}
+/* Saved */
+.saved-item{display:flex;justify-content:space-between;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;}
+.saved-item:hover{background:rgba(255,255,255,.07);}
+.saved-item .st{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;}
+.saved-item .sd{font-size:11px;opacity:.4;flex-shrink:0;}
 
-  .prac-header{display:flex;justify-content:space-between;align-items:center;}
-  .streak{background:rgba(255,150,0,.15);border:1px solid rgba(255,150,0,.3);border-radius:18px;padding:3px 11px;font-size:13px;font-weight:700;}
-  .pbar{height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
-  .pfill{height:100%;background:var(--green);border-radius:3px;transition:width .5s ease;}
-  .level-tag{text-align:center;font-size:11px;opacity:.45;text-transform:uppercase;letter-spacing:1px;}
+/* Practice header */
+.prac-hdr{display:flex;justify-content:space-between;align-items:center;}
+.streak{background:rgba(255,150,0,.15);border:1px solid rgba(255,150,0,.3);border-radius:16px;padding:3px 10px;font-size:13px;font-weight:700;}
+.pbar{height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.pfill{height:100%;background:var(--green);border-radius:3px;transition:width .4s ease;}
+.lvl-tag{text-align:center;font-size:10px;opacity:.4;text-transform:uppercase;letter-spacing:1px;}
 
-  .dlg-box{display:flex;flex-direction:column;gap:11px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px;min-height:160px;max-height:300px;overflow-y:auto;}
-  .dlg-box::-webkit-scrollbar{width:3px;}
-  .dlg-box::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px;}
-  .line-wrap{display:flex;align-items:flex-end;gap:8px;transition:all .3s ease;}
-  .line-wrap.user{justify-content:flex-end;}
-  .line-wrap.future{opacity:.15;}
-  .line-wrap.past{opacity:.42;}
-  .line-wrap.current{transform:scale(1.02);}
-  .dot{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
-  .dot.user-dot{background:var(--green);color:#000;}
-  .bubble{max-width:80%;padding:9px 13px;border-radius:13px;font-size:14px;line-height:1.55;}
-  .bubble.partner{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10);border-bottom-left-radius:3px;}
-  .bubble.user{background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.25);color:#c8f7d8;border-bottom-right-radius:3px;}
-  .bubble.faded{opacity:.42;}
-  .masked{background:rgba(250,204,21,.2);border-radius:3px;padding:1px 3px;color:var(--yellow);font-family:'JetBrains Mono',monospace;letter-spacing:2px;}
+/* Dialogue */
+.dlg{display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:13px;padding:13px;min-height:150px;max-height:280px;overflow-y:auto;}
+.dlg::-webkit-scrollbar{width:3px;}
+.dlg::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px;}
+.lw{display:flex;align-items:flex-end;gap:7px;transition:all .25s ease;}
+.lw.user-line{justify-content:flex-end;}
+.lw.past{opacity:.38;}
+.lw.future{opacity:.13;}
+.lw.current{transform:scale(1.02);}
+.dot{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.dot.u{background:var(--green);color:#000;}
+.bub{max-width:82%;padding:8px 12px;border-radius:12px;font-size:14px;line-height:1.55;}
+.bub.p{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10);border-bottom-left-radius:3px;}
+.bub.u{background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.25);color:#c8f7d8;border-bottom-right-radius:3px;}
+.bub.dim{opacity:.4;}
+.masked{background:rgba(250,204,21,.2);border-radius:3px;padding:1px 3px;color:var(--yellow);font-family:'JetBrains Mono',monospace;letter-spacing:2px;}
 
-  .status-panel{display:flex;flex-direction:column;gap:10px;}
-  .status-box{display:flex;flex-direction:column;align-items:center;gap:10px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:18px 14px;animation:fi .3s ease;}
-  .status-box.listen{border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.05);}
-  .status-box.warn{border-color:rgba(250,204,21,.3);background:rgba(250,204,21,.05);}
-  .status-box.hidden{display:none;}
+/* Status cards */
+.card{display:flex;flex-direction:column;align-items:center;gap:9px;border:1px solid var(--border);border-radius:13px;padding:16px 14px;font-size:13px;}
+.card.hidden{display:none;}
+.card.speak-card{background:rgba(255,255,255,.03);}
+.card.listen-card{background:rgba(74,222,128,.05);border-color:rgba(74,222,128,.3);}
+.card.wrong-card{background:rgba(248,113,113,.06);border-color:rgba(248,113,113,.3);}
+.card.stalled-card{background:rgba(250,204,21,.05);border-color:rgba(250,204,21,.3);}
 
-  .waves{display:flex;gap:5px;align-items:center;}
-  .wave{width:4px;height:20px;background:var(--fg);border-radius:2px;animation:wv .7s ease-in-out infinite;}
-  @keyframes wv{0%,100%{transform:scaleY(.2);opacity:.3}50%{transform:scaleY(1.4);opacity:1}}
+/* TTS stall: big play button */
+.play-tts-btn{font-size:32px;background:rgba(255,255,255,.07);border:2px solid var(--border);border-radius:50%;width:64px;height:64px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.play-tts-btn:hover{background:rgba(255,255,255,.14);}
 
-  .mic-ring{width:68px;height:68px;border-radius:50%;background:rgba(74,222,128,.1);border:2px solid rgba(74,222,128,.4);display:flex;align-items:center;justify-content:center;font-size:28px;animation:pulse 1.3s ease-in-out infinite;}
-  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 16px rgba(74,222,128,0)}}
+/* Wave */
+.waves{display:flex;gap:4px;align-items:center;}
+.wave{width:4px;height:18px;background:var(--fg);border-radius:2px;animation:wv .7s ease-in-out infinite;}
+@keyframes wv{0%,100%{transform:scaleY(.2);opacity:.3}50%{transform:scaleY(1.4);opacity:1}}
 
-  .listen-label{font-weight:700;color:var(--green);font-size:15px;}
-  .listen-sub{font-size:12px;opacity:.5;margin-top:3px;text-align:center;}
-  .preview{background:rgba(255,255,255,.06);border-radius:9px;padding:7px 13px;font-size:13px;font-style:italic;text-align:center;opacity:.8;max-width:100%;min-height:32px;}
+/* Mic */
+.mic-ring{width:64px;height:64px;border-radius:50%;background:rgba(74,222,128,.1);border:2px solid rgba(74,222,128,.4);display:flex;align-items:center;justify-content:center;font-size:26px;animation:pulse 1.3s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 14px rgba(74,222,128,0)}}
 
-  /* Partner text shown during TTS */
-  .partner-text{font-size:15px;text-align:center;color:var(--fg);opacity:.85;padding:0 8px;line-height:1.6;}
+.live-txt{background:rgba(255,255,255,.06);border-radius:8px;padding:6px 12px;font-size:13px;font-style:italic;text-align:center;min-height:30px;width:100%;opacity:.85;}
+.partner-txt{font-size:15px;text-align:center;line-height:1.6;color:var(--fg);opacity:.9;}
 
-  /* Warning/help box */
-  .warn-title{font-weight:700;color:var(--yellow);font-size:14px;}
-  .warn-text{font-size:12px;opacity:.7;text-align:center;line-height:1.6;}
-  .warn-hint{font-size:12px;opacity:.55;text-align:center;font-style:italic;}
+/* Wrong answer */
+.wrong-title{font-weight:700;color:var(--red);font-size:14px;}
+.correct-line{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);border-radius:8px;padding:8px 12px;font-size:14px;color:#c8f7d8;text-align:center;width:100%;line-height:1.6;}
+.you-said{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);border-radius:8px;padding:6px 12px;font-size:12px;color:#fca5a5;text-align:center;width:100%;opacity:.8;}
+.attempts{font-size:12px;opacity:.45;}
 
-  .done-box{display:flex;flex-direction:column;align-items:center;gap:13px;background:rgba(74,222,128,.05);border:1px solid rgba(74,222,128,.15);border-radius:18px;padding:26px;animation:fi .3s ease;}
-  .done-emoji{font-size:52px;}
-  .done-title{font-size:22px;font-weight:700;}
-  .done-sub{opacity:.5;font-size:13px;}
+/* Done */
+.done-box{display:flex;flex-direction:column;align-items:center;gap:12px;background:rgba(74,222,128,.05);border:1px solid rgba(74,222,128,.15);border-radius:16px;padding:24px;}
+.done-box .emoji{font-size:50px;}
+.done-box h3{font-size:21px;font-weight:700;}
+.done-box p{opacity:.5;font-size:13px;}
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- HOME -->
-  <div id="screen-home" class="screen">
-    <div class="hero">
-      <div class="hero-flag">🇩🇪</div>
-      <h1 class="hero-title">DeutschDialog</h1>
-      <p class="hero-sub">Párbeszéd-alapú német nyelvgyakorlás</p>
-      <div class="level-cards">
-        <div class="level-card" style="border-color:#4ade80">
-          <span style="font-size:20px">👁</span>
-          <div><div class="lname" style="color:#4ade80">Szint 1 – Teljes láthatóság</div><div class="ldesc">Saját szöveg halványítva látható</div></div>
-        </div>
-        <div class="level-card" style="border-color:#facc15">
-          <span style="font-size:20px">✏️</span>
-          <div><div class="lname" style="color:#facc15">Szint 2 – Hiányos szöveg</div><div class="ldesc">Egyes szavak kitakarva</div></div>
-        </div>
-        <div class="level-card" style="border-color:#f87171">
-          <span style="font-size:20px">🧠</span>
-          <div><div class="lname" style="color:#f87171">Szint 3 – Emlékezetből</div><div class="ldesc">Csak a partner hangját hallod</div></div>
-        </div>
-      </div>
-      <button class="btn" onclick="showScreen('setup')">Kezdjük el →</button>
-      <button class="ghost" id="saved-toggle-btn" style="display:none" onclick="toggleSaved()">📂 Mentett párbeszédek</button>
-      <div id="saved-list" style="display:none;flex-direction:column;gap:7px;width:100%"></div>
+<!-- ══ HOME ══ -->
+<div id="s-home" class="screen">
+  <div class="hero">
+    <div style="font-size:56px">🇩🇪</div>
+    <h1>DeutschDialog</h1>
+    <p>Párbeszéd-alapú német nyelvgyakorlás</p>
+    <div class="intro-cards">
+      <div class="intro-card" style="border-color:#4ade80"><span>👁</span><div><b style="color:#4ade80">Szint 1 – Teljes láthatóság</b><br><small>Saját szöveg halványítva látható</small></div></div>
+      <div class="intro-card" style="border-color:#facc15"><span>✏️</span><div><b style="color:#facc15">Szint 2 – Hiányos szöveg</b><br><small>Egyes szavak kitakarva</small></div></div>
+      <div class="intro-card" style="border-color:#f87171"><span>🧠</span><div><b style="color:#f87171">Szint 3 – Emlékezetből</b><br><small>Csak a partner hangját hallod</small></div></div>
     </div>
+    <button class="btn" onclick="go('setup')">Kezdjük el →</button>
+    <button class="ghost" id="saved-btn" style="display:none" onclick="toggleSaved()">📂 Mentett párbeszédek</button>
+    <div id="saved-list" style="display:none;flex-direction:column;gap:6px;width:100%"></div>
   </div>
-
-  <!-- SETUP -->
-  <div id="screen-setup" class="screen hidden">
-    <button class="back-btn" onclick="showScreen('home')">← Vissza</button>
-    <h2 style="font-size:22px;font-weight:700">Beállítások</h2>
-
-    <label class="lbl">Párbeszéd szövege</label>
-    <textarea id="raw-text" rows="9"></textarea>
-    <p class="hint">Formátum: <code>A: szöveg</code> / <code>B: szöveg</code> – soronként</p>
-
-    <label class="lbl">Szereped</label>
-    <div class="chip-row" id="role-chips"></div>
-
-    <label class="lbl">Szint</label>
-    <button class="lvl-btn on" id="lvl-1" onclick="selectLevel(1)">
-      <span style="font-size:18px">👁</span>
-      <div><div class="lname">Szint 1 – Teljes láthatóság</div><div class="ldesc">Saját szöveg halványítva látható</div></div>
-    </button>
-    <button class="lvl-btn" id="lvl-2" onclick="selectLevel(2)">
-      <span style="font-size:18px">✏️</span>
-      <div><div class="lname">Szint 2 – Hiányos szöveg</div><div class="ldesc">Egyes szavak kitakarva</div></div>
-    </button>
-    <button class="lvl-btn" id="lvl-3" onclick="selectLevel(3)">
-      <span style="font-size:18px">🧠</span>
-      <div><div class="lname">Szint 3 – Emlékezetből</div><div class="ldesc">Csak a partner hangját hallod</div></div>
-    </button>
-
-    <label class="lbl">TTS sebesség: <span id="rate-label">0.85×</span></label>
-    <input type="range" id="rate-slider" min="0.5" max="1.5" step="0.05" value="0.85"
-      oninput="document.getElementById('rate-label').textContent=parseFloat(this.value).toFixed(2)+'×'"/>
-
-    <button class="btn" onclick="startPractice()">🎯 Gyakorlás indítása</button>
-  </div>
-
-  <!-- PRACTICE -->
-  <div id="screen-practice" class="screen hidden">
-    <div class="prac-header">
-      <button class="back-btn" onclick="stopAll();showScreen('setup')">← Beállítások</button>
-      <div class="streak" id="streak-badge">🔥 0</div>
-    </div>
-    <div class="pbar"><div class="pfill" id="progress-fill" style="width:0%"></div></div>
-    <div class="level-tag" id="level-tag"></div>
-
-    <div class="dlg-box" id="dlg-box"></div>
-
-    <div class="status-panel">
-
-      <!-- partner speaking -->
-      <div class="status-box hidden" id="box-speaking">
-        <div class="waves">
-          <div class="wave" style="animation-delay:0s"></div>
-          <div class="wave" style="animation-delay:.1s"></div>
-          <div class="wave" style="animation-delay:.2s"></div>
-          <div class="wave" style="animation-delay:.3s"></div>
-          <div class="wave" style="animation-delay:.4s"></div>
-        </div>
-        <div class="partner-text" id="partner-text-display"></div>
-      </div>
-
-      <!-- user listening -->
-      <div class="status-box listen hidden" id="box-listening">
-        <div class="mic-ring">🎙</div>
-        <div>
-          <div class="listen-label">Hallgatlak…</div>
-          <div class="listen-sub">Szólalj meg – ha elhallgatsz, automatikusan továbblép</div>
-        </div>
-        <div class="preview" id="live-text"></div>
-      </div>
-
-      <!-- mic not available – manual next button -->
-      <div class="status-box warn hidden" id="box-warn">
-        <div class="warn-title">⚠️ Mikrofon nem elérhető</div>
-        <div class="warn-text" id="warn-text"></div>
-        <div class="warn-hint">Mondd el hangosan a saját részedet, majd lépj tovább:</div>
-        <div class="preview" id="user-text-hint" style="opacity:1;font-style:normal;color:#c8f7d8;border:1px solid rgba(74,222,128,.2);"></div>
-        <button class="btn" onclick="manualNext()" style="margin-top:4px">✓ Kész, tovább →</button>
-      </div>
-
-      <div class="row-btns">
-        <button class="ghost" onclick="replayPartner()">🔁 Partner újra</button>
-        <button class="ghost" onclick="skipLine()">⏭ Kihagyás</button>
-        <button class="ghost" onclick="restartPractice()">🔄 Újra</button>
-      </div>
-    </div>
-
-    <!-- done -->
-    <div class="done-box hidden" id="done-box">
-      <div class="done-emoji">🎉</div>
-      <div class="done-title">Vége!</div>
-      <div class="done-sub" id="done-sub"></div>
-      <button class="btn yellow" id="next-level-btn" onclick="nextLevel()" style="display:none">⬆ Következő szint</button>
-      <button class="btn" onclick="restartPractice()">🔄 Újra ugyanígy</button>
-      <button class="ghost" onclick="stopAll();showScreen('setup')">⚙ Beállítások</button>
-    </div>
-  </div>
-
 </div>
+
+<!-- ══ SETUP ══ -->
+<div id="s-setup" class="screen hidden">
+  <button class="back" onclick="go('home')">← Vissza</button>
+  <h2 style="font-size:21px;font-weight:700">Beállítások</h2>
+  <label class="lbl">Párbeszéd szövege</label>
+  <textarea id="raw" rows="9"></textarea>
+  <p class="hint">Formátum: <code>A: szöveg</code> / <code>B: szöveg</code> – soronként</p>
+  <label class="lbl">Szereped</label>
+  <div class="chips" id="role-chips"></div>
+  <label class="lbl">Szint</label>
+  <button class="lvl-btn on" id="lvl-1" onclick="setLevel(1)"><span>👁</span><div><div class="ln">Szint 1 – Teljes láthatóság</div><div class="ld">Saját szöveg halványítva látható</div></div></button>
+  <button class="lvl-btn" id="lvl-2" onclick="setLevel(2)"><span>✏️</span><div><div class="ln">Szint 2 – Hiányos szöveg</div><div class="ld">Egyes szavak kitakarva</div></div></button>
+  <button class="lvl-btn" id="lvl-3" onclick="setLevel(3)"><span>🧠</span><div><div class="ln">Szint 3 – Emlékezetből</div><div class="ld">Csak a partner hangját hallod</div></div></button>
+  <label class="lbl">TTS sebesség: <span id="rate-lbl">0.85×</span></label>
+  <input type="range" id="rate-sl" min="0.5" max="1.5" step="0.05" value="0.85" oninput="$('rate-lbl').textContent=parseFloat(this.value).toFixed(2)+'×'"/>
+  <button class="btn" onclick="startPractice()">🎯 Gyakorlás indítása</button>
+</div>
+
+<!-- ══ PRACTICE ══ -->
+<div id="s-practice" class="screen hidden">
+  <div class="prac-hdr">
+    <button class="back" onclick="stopAll();go('setup')">← Beállítások</button>
+    <div class="streak" id="streak">🔥 0</div>
+  </div>
+  <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
+  <div class="lvl-tag" id="lvl-tag"></div>
+
+  <div class="dlg" id="dlg"></div>
+
+  <!-- CARD: partner speaking -->
+  <div class="card speak-card hidden" id="c-speak">
+    <div class="waves">
+      <div class="wave" style="animation-delay:0s"></div>
+      <div class="wave" style="animation-delay:.1s"></div>
+      <div class="wave" style="animation-delay:.2s"></div>
+      <div class="wave" style="animation-delay:.3s"></div>
+      <div class="wave" style="animation-delay:.4s"></div>
+    </div>
+    <div class="partner-txt" id="partner-txt"></div>
+  </div>
+
+  <!-- CARD: TTS stalled – manual play -->
+  <div class="card stalled-card hidden" id="c-stalled">
+    <div style="font-size:13px;opacity:.7;font-weight:700;color:var(--yellow)">🔇 Hang nem indult el automatikusan</div>
+    <div class="partner-txt" id="stalled-txt" style="font-size:14px"></div>
+    <button class="play-tts-btn" id="play-btn" title="Lejátszás">▶</button>
+    <div style="font-size:11px;opacity:.45">Kattints a ▶ gombra a lejátszáshoz, majd lépj tovább</div>
+    <button class="btn" onclick="stalledNext()">✓ Meghallgattam, tovább →</button>
+  </div>
+
+  <!-- CARD: user listening -->
+  <div class="card listen-card hidden" id="c-listen">
+    <div class="mic-ring">🎙</div>
+    <div style="text-align:center">
+      <div style="font-weight:700;color:var(--green);font-size:15px">Hallgatlak…</div>
+      <div style="font-size:12px;opacity:.5;margin-top:3px">Mondd el a mondatodat, majd állj meg</div>
+    </div>
+    <div class="live-txt" id="live-txt"></div>
+  </div>
+
+  <!-- CARD: wrong answer -->
+  <div class="card wrong-card hidden" id="c-wrong">
+    <div class="wrong-title">❌ Nem egészen…</div>
+    <div style="font-size:12px;opacity:.55">Helyes szöveg:</div>
+    <div class="correct-line" id="correct-line"></div>
+    <div class="you-said" id="you-said"></div>
+    <div class="attempts" id="attempts-txt"></div>
+    <button class="btn" onclick="retryLine()">🔄 Próbáld újra</button>
+    <button class="ghost" onclick="forceNext()" style="font-size:12px">Kihagyom ezt a sort →</button>
+  </div>
+
+  <!-- CARD: no mic -->
+  <div class="card stalled-card hidden" id="c-nomic">
+    <div style="font-weight:700;color:var(--yellow);font-size:13px">🎤 Mikrofon nem elérhető</div>
+    <div style="font-size:12px;opacity:.6;text-align:center" id="nomic-reason"></div>
+    <div style="font-size:12px;opacity:.55">Mondd el hangosan ezt a mondatot:</div>
+    <div class="correct-line" id="nomic-line"></div>
+    <button class="btn" onclick="micManualNext()">✓ Elmondtam, tovább →</button>
+  </div>
+
+  <div class="row" style="margin-top:2px">
+    <button class="ghost" onclick="replayPartner()">🔁 Partner újra</button>
+    <button class="ghost" onclick="skipLine()">⏭ Kihagyás</button>
+    <button class="ghost" onclick="restartPractice()">🔄 Újra</button>
+  </div>
+
+  <!-- done -->
+  <div class="done-box hidden" id="done-box">
+    <div class="emoji">🎉</div>
+    <h3>Vége!</h3>
+    <p id="done-info"></p>
+    <button class="btn yellow" id="next-lvl-btn" onclick="nextLevel()" style="display:none">⬆ Következő szint</button>
+    <button class="btn" onclick="restartPractice()">🔄 Újra ugyanígy</button>
+    <button class="ghost" onclick="stopAll();go('setup')">⚙ Beállítások</button>
+  </div>
+</div>
+
+</div><!-- #app -->
 <script>
+// ── Helpers ────────────────────────────────────────────────────────────────
+function $(id){ return document.getElementById(id); }
+
 // ── State ──────────────────────────────────────────────────────────────────
-var dialogue   = [];
-var userRole   = 'A';
-var level      = 1;
-var lineIdx    = 0;
+var dlg        = [];   // parsed dialogue
+var role       = 'A';  // user's role
+var lvl        = 1;
+var idx        = 0;    // current line index
 var streak     = 0;
-var engineBusy = false;
-var currentRec = null;
+var attempts   = 0;    // wrong attempts for current user line
+var busy       = false;
+var rec        = null;
 var ttsRate    = 0.85;
-var savedList  = [];
-var voicesReady = false;
+var saved      = [];
+var stalledLine= null; // line waiting for manual TTS play
 
 var SAMPLE = 'A: Guten Morgen! Wie geht es dir?\nB: Mir geht es gut, danke. Und dir?\nA: Auch gut. Was machst du heute?\nB: Ich gehe zur Arbeit. Und du?\nA: Ich lerne Deutsch. Es macht Spaß!\nB: Das ist wunderbar! Viel Erfolg!';
 
 // ── Init ───────────────────────────────────────────────────────────────────
-window.onload = function() {
-  document.getElementById('raw-text').value = SAMPLE;
+window.onload = function(){
+  $('raw').value = SAMPLE;
   loadSaved();
-  updateRoleChips();
-
-  // Pre-load voices
-  if (window.speechSynthesis) {
-    var voices = window.speechSynthesis.getVoices();
-    if (voices.length > 0) {
-      voicesReady = true;
-    } else {
-      window.speechSynthesis.addEventListener('voiceschanged', function() {
-        voicesReady = true;
-      });
-    }
+  refreshChips();
+  // Pre-warm voices
+  if(window.speechSynthesis){
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = function(){};
   }
 };
 
-// ── Screens ────────────────────────────────────────────────────────────────
-function showScreen(name) {
-  ['home','setup','practice'].forEach(function(s) {
-    var el = document.getElementById('screen-' + s);
-    if (s === name) el.classList.remove('hidden');
-    else el.classList.add('hidden');
+// ── Navigation ─────────────────────────────────────────────────────────────
+function go(screen){
+  ['home','setup','practice'].forEach(function(s){
+    $(('s-'+s)).classList.toggle('hidden', s!==screen);
   });
 }
 
 // ── Saved ──────────────────────────────────────────────────────────────────
-function loadSaved() {
-  try { savedList = JSON.parse(localStorage.getItem('de_dlg') || '[]'); } catch(e) { savedList = []; }
-  var btn = document.getElementById('saved-toggle-btn');
-  btn.style.display = savedList.length ? 'block' : 'none';
-  btn.textContent = '📂 Mentett párbeszédek (' + savedList.length + ')';
+function loadSaved(){
+  try{ saved=JSON.parse(localStorage.getItem('de_dlg')||'[]'); }catch(e){ saved=[]; }
+  var btn=$('saved-btn');
+  btn.style.display=saved.length?'block':'none';
+  btn.textContent='📂 Mentett párbeszédek ('+saved.length+')';
 }
-
-function toggleSaved() {
-  var el = document.getElementById('saved-list');
-  if (el.style.display === 'flex') { el.style.display = 'none'; return; }
-  el.innerHTML = '';
-  savedList.forEach(function(item) {
-    var d = document.createElement('div');
-    d.className = 'saved-item';
-    d.innerHTML = '<span class="stitle">' + item.title + '</span><span class="sdate">' + item.date + '</span>';
-    d.onclick = function() {
-      document.getElementById('raw-text').value = item.raw;
-      el.style.display = 'none';
-      updateRoleChips();
-      showScreen('setup');
-    };
+function toggleSaved(){
+  var el=$('saved-list');
+  if(el.style.display==='flex'){el.style.display='none';return;}
+  el.innerHTML='';
+  saved.forEach(function(item){
+    var d=document.createElement('div');
+    d.className='saved-item';
+    d.innerHTML='<span class="st">'+item.title+'</span><span class="sd">'+item.date+'</span>';
+    d.onclick=function(){ $('raw').value=item.raw; el.style.display='none'; refreshChips(); go('setup'); };
     el.appendChild(d);
   });
-  el.style.display = 'flex';
+  el.style.display='flex';
 }
-
-function maybeSave(raw, dlg) {
-  if (!savedList.find(function(x){ return x.raw === raw; })) {
-    var title = dlg[0].text.slice(0,38) + '…';
-    var date  = new Date().toLocaleDateString('hu');
-    savedList = [{raw:raw, title:title, date:date}].concat(savedList).slice(0,10);
-    localStorage.setItem('de_dlg', JSON.stringify(savedList));
+function maybeSave(raw,parsed){
+  if(!saved.find(function(x){return x.raw===raw;})){
+    var title=parsed[0].text.slice(0,38)+'…';
+    var date=new Date().toLocaleDateString('hu');
+    saved=[{raw:raw,title:title,date:date}].concat(saved).slice(0,10);
+    localStorage.setItem('de_dlg',JSON.stringify(saved));
     loadSaved();
   }
 }
 
 // ── Setup ──────────────────────────────────────────────────────────────────
-function getSpeakers() {
-  var raw   = document.getElementById('raw-text').value;
-  var found = [];
-  raw.split('\n').forEach(function(l) {
-    var m = l.trim().match(/^([A-Z]):/);
-    if (m && found.indexOf(m[1]) === -1) found.push(m[1]);
+function getSpeakers(){
+  var raw=$('raw').value, found=[];
+  raw.split('\n').forEach(function(l){
+    var m=l.trim().match(/^([A-Z]):/);
+    if(m&&found.indexOf(m[1])===-1) found.push(m[1]);
   });
-  return found.length ? found : ['A','B'];
+  return found.length?found:['A','B'];
 }
-
-function updateRoleChips() {
-  var speakers = getSpeakers();
-  if (speakers.indexOf(userRole) === -1) userRole = speakers[0];
-  var row = document.getElementById('role-chips');
-  row.innerHTML = '';
-  speakers.forEach(function(sp) {
-    var b = document.createElement('button');
-    b.className = 'chip' + (sp === userRole ? ' on' : '');
-    b.textContent = 'Szereplő ' + sp;
-    b.onclick = function() { userRole = sp; updateRoleChips(); };
+function refreshChips(){
+  var sp=getSpeakers();
+  if(sp.indexOf(role)===-1) role=sp[0];
+  var row=$('role-chips'); row.innerHTML='';
+  sp.forEach(function(s){
+    var b=document.createElement('button');
+    b.className='chip'+(s===role?' on':'');
+    b.textContent='Szereplő '+s;
+    b.onclick=function(){ role=s; refreshChips(); };
     row.appendChild(b);
   });
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-  var ta = document.getElementById('raw-text');
-  if (ta) ta.addEventListener('input', updateRoleChips);
-});
-
-function selectLevel(n) {
-  level = n;
-  [1,2,3].forEach(function(i) {
-    document.getElementById('lvl-'+i).classList.toggle('on', i===n);
-  });
+$('raw') && $('raw').addEventListener('input', refreshChips);
+function setLevel(n){
+  lvl=n;
+  [1,2,3].forEach(function(i){ $('lvl-'+i).classList.toggle('on',i===n); });
 }
 
 // ── Parse ──────────────────────────────────────────────────────────────────
-function parseDialogue(raw) {
-  return raw.split('\n').map(function(l){ return l.trim(); }).filter(Boolean)
-    .reduce(function(acc, line) {
-      var m = line.match(/^([A-Z]):\s*(.+)$/);
-      if (m) acc.push({ speaker: m[1], text: m[2] });
-      return acc;
-    }, []);
+function parse(raw){
+  return raw.split('\n').map(function(l){return l.trim();}).filter(Boolean).reduce(function(a,l){
+    var m=l.match(/^([A-Z]):\s*(.+)$/); if(m) a.push({speaker:m[1],text:m[2]}); return a;
+  },[]);
 }
-
-function maskWords(text) {
-  return text.split(' ').map(function(word) {
-    var clean = word.replace(/[^a-zA-ZäöüÄÖÜß]/g,'');
-    return { word: word, masked: clean.length > 4 && Math.random() < 0.5 };
+function maskWords(text){
+  return text.split(' ').map(function(w){
+    var c=w.replace(/[^a-zA-ZäöüÄÖÜß]/g,'');
+    return {word:w,masked:c.length>4&&Math.random()<0.5};
   });
 }
 
-// ── TTS ────────────────────────────────────────────────────────────────────
-function getBestGermanVoice() {
-  var voices = window.speechSynthesis.getVoices();
-  return voices.find(function(v){ return v.lang === 'de-DE'; })
-      || voices.find(function(v){ return v.lang.startsWith('de'); })
-      || null;
+// ── TTS – robust implementation ────────────────────────────────────────────
+var cachedVoice=null;
+function getGermanVoice(){
+  if(cachedVoice) return cachedVoice;
+  var voices=window.speechSynthesis.getVoices();
+  cachedVoice=voices.find(function(v){return v.lang==='de-DE';})
+    ||voices.find(function(v){return v.lang.startsWith('de');})
+    ||null;
+  return cachedVoice;
 }
 
-function speakGerman(text, rate, onDone) {
-  var synth = window.speechSynthesis;
-  if (!synth) { onDone(false); return; }
+function speakText(text, rate, onDone){
+  var synth=window.speechSynthesis;
+  if(!synth){ onDone(false); return; }
 
-  // Cancel any ongoing speech
   synth.cancel();
+  cachedVoice=null; // refresh voice cache after cancel
 
-  function doSpeak() {
-    var u    = new SpeechSynthesisUtterance(text);
-    u.lang   = 'de-DE';
-    u.rate   = rate;
-    u.pitch  = 1;
-    u.volume = 1;
+  function attempt(){
+    var u=new SpeechSynthesisUtterance(text);
+    u.lang='de-DE';
+    u.rate=rate;
+    u.pitch=1;
+    u.volume=1;
+    var v=getGermanVoice();
+    if(v) u.voice=v;
 
-    var voice = getBestGermanVoice();
-    if (voice) u.voice = voice;
-
-    var finished = false;
-    function finish(ok) {
-      if (finished) return;
-      finished = true;
+    var done=false;
+    function finish(ok){
+      if(done) return;
+      done=true;
       onDone(ok);
     }
 
-    u.onstart = function() { /* speaking started OK */ };
-    u.onend   = function() { finish(true); };
-    u.onerror = function(e) {
-      console.warn('TTS error:', e.error);
+    u.onstart=function(){
+      // Chrome workaround: sometimes onstart fires but audio is silent
+      // We watch speaking flag
+    };
+    u.onend=function(){ finish(true); };
+    u.onerror=function(e){
+      console.warn('TTS onerror:',e.error);
       finish(false);
     };
 
-    // Chrome bug fix: use setTimeout after cancel
-    setTimeout(function(){ synth.speak(u); }, 100);
+    synth.speak(u);
 
-    // Safety timeout: if onend never fires (some browsers), advance after text duration estimate
-    var estimatedMs = Math.max(3000, text.length * 80);
-    setTimeout(function() { finish(false); }, estimatedMs);
+    // Check after 800ms if it actually started speaking
+    setTimeout(function(){
+      if(!done && !synth.speaking && !synth.pending){
+        console.warn('TTS: nothing happened after 800ms');
+        finish(false);
+      }
+    }, 800);
+
+    // Hard timeout fallback
+    var dur=Math.max(4000, text.length*120);
+    setTimeout(function(){ finish(false); }, dur);
   }
 
-  // Wait for voices if not ready yet
-  var voices = synth.getVoices();
-  if (voices.length > 0) {
-    doSpeak();
+  // Wait for voices to load
+  var voices=synth.getVoices();
+  if(voices.length>0){
+    setTimeout(attempt, 80);
   } else {
-    synth.addEventListener('voiceschanged', function handler() {
-      synth.removeEventListener('voiceschanged', handler);
-      doSpeak();
-    });
-    // Extra safety: if voiceschanged never fires
-    setTimeout(function() {
-      if (!voicesReady) doSpeak();
-    }, 1500);
+    var handled=false;
+    synth.onvoiceschanged=function(){
+      if(handled) return; handled=true;
+      setTimeout(attempt,80);
+    };
+    setTimeout(function(){
+      if(!handled){ handled=true; attempt(); }
+    }, 2000);
   }
 }
+
+// ── Speech comparison ──────────────────────────────────────────────────────
+function normalize(s){
+  return s.toLowerCase()
+    .replace(/[äÄ]/g,'a').replace(/[öÖ]/g,'o').replace(/[üÜ]/g,'u').replace(/ß/g,'ss')
+    .replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();
+}
+function similarity(a,b){
+  a=normalize(a); b=normalize(b);
+  if(!a||!b) return 0;
+  if(a===b) return 1;
+  // Word overlap ratio
+  var wa=a.split(' '), wb=b.split(' ');
+  var matches=0;
+  wa.forEach(function(w){ if(wb.indexOf(w)!==-1) matches++; });
+  return matches/Math.max(wa.length,wb.length);
+}
+var THRESHOLD=0.55; // 55% word overlap required
 
 // ── Speech Recognition ─────────────────────────────────────────────────────
-function listenOnce(userLineText, onDone) {
-  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) {
-    showWarnBox(userLineText, 'A böngésző nem támogatja a beszédfelismerést. Chrome-ot használj!');
+function listenOnce(expectedText, onDone){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){
+    showNoMic(expectedText,'Chrome böngésző szükséges a beszédfelismeréshez.');
     return null;
   }
+  var r=new SR();
+  r.lang='de-DE';
+  r.continuous=false;
+  r.interimResults=true;
+  var final='', committed=false;
 
-  var rec          = new SR();
-  rec.lang         = 'de-DE';
-  rec.continuous   = false;
-  rec.interimResults = true;
-
-  var finalText = '';
-  var committed = false;
-
-  function commit() {
-    if (committed) return;
-    committed = true;
-    currentRec = null;
-    hideWarnBox();
-    onDone(finalText);
+  function commit(){
+    if(committed) return;
+    committed=true;
+    rec=null;
+    onDone(final);
   }
 
-  rec.onresult = function(e) {
-    var interim = '';
-    for (var i = e.resultIndex; i < e.results.length; i++) {
-      var t = e.results[i][0].transcript;
-      if (e.results[i].isFinal) finalText += t;
-      else interim = t;
+  r.onresult=function(e){
+    var interim='';
+    for(var i=e.resultIndex;i<e.results.length;i++){
+      var t=e.results[i][0].transcript;
+      if(e.results[i].isFinal) final+=t;
+      else interim=t;
     }
-    var el = document.getElementById('live-text');
-    if (el) el.textContent = finalText || interim;
+    $('live-txt').textContent=final||interim;
   };
-
-  rec.onend = function() { commit(); };
-
-  rec.onerror = function(e) {
-    console.warn('SR error:', e.error);
-    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
-      committed = true;
-      currentRec = null;
-      showWarnBox(userLineText, 'Mikrofon hozzáférés megtagadva. Engedélyezd a böngészőben, vagy kattints a "Kész, tovább" gombra.');
-    } else {
-      commit();
-    }
+  r.onend=function(){ commit(); };
+  r.onerror=function(e){
+    console.warn('SR:',e.error);
+    if(e.error==='not-allowed'||e.error==='service-not-allowed'){
+      committed=true; rec=null;
+      showNoMic(expectedText,'Mikrofon hozzáférés megtagadva. Engedélyezd a böngészőben.');
+    } else { commit(); }
   };
-
-  try {
-    rec.start();
-  } catch(e) {
-    showWarnBox(userLineText, 'Nem sikerült elindítani a mikrofont: ' + e.message);
-    return null;
+  try{ r.start(); } catch(e){
+    showNoMic(expectedText,'Hiba: '+e.message); return null;
   }
-  return rec;
+  return r;
 }
 
-// ── Warn box (mic unavailable) ─────────────────────────────────────────────
-function showWarnBox(userLineText, reason) {
-  setStatusBox('warn');
-  document.getElementById('warn-text').textContent = reason;
-  // Show the user's line so they can read it aloud manually
-  var hint = document.getElementById('user-text-hint');
-  if (hint) hint.textContent = userLineText || '';
+// ── Engine ─────────────────────────────────────────────────────────────────
+function startPractice(){
+  var raw=$('raw').value;
+  var parsed=parse(raw);
+  if(!parsed.length){ alert('Nem sikerült értelmezni! Formátum: A: szöveg'); return; }
+
+  // Unlock audio with user gesture
+  var s=new SpeechSynthesisUtterance(' ');
+  s.volume=0; s.lang='de-DE';
+  window.speechSynthesis.speak(s);
+
+  ttsRate=parseFloat($('rate-sl').value);
+  dlg=parsed; idx=0; streak=0; attempts=0; busy=false; rec=null; stalledLine=null;
+  maybeSave(raw,parsed);
+  refreshChips();
+
+  $('streak').textContent='🔥 0';
+  $('pfill').style.width='0%';
+  var tags={1:'👁 Szint 1',2:'✏️ Szint 2',3:'🧠 Szint 3'};
+  $('lvl-tag').textContent=tags[lvl];
+  $('done-box').classList.add('hidden');
+  hideAllCards();
+  renderDlg();
+  go('practice');
+  setTimeout(runLine,800);
 }
 
-function hideWarnBox() {
-  // will be hidden by setStatusBox
-}
+function runLine(){
+  if(busy) return;
+  busy=true;
+  hideAllCards();
 
-function manualNext() {
-  if (currentRec) { try { currentRec.abort(); } catch(e){} currentRec = null; }
-  engineBusy = false;
-  streak++;
-  document.getElementById('streak-badge').textContent = '🔥 ' + streak;
-  setStatusBox('idle');
-  lineIdx++;
-  setTimeout(runLine, 200);
-}
-
-// ── Practice engine ────────────────────────────────────────────────────────
-function startPractice() {
-  var raw = document.getElementById('raw-text').value;
-  var dlg = parseDialogue(raw);
-  if (!dlg.length) { alert('Nem sikerült értelmezni. Formátum: A: szöveg'); return; }
-
-  // Unlock audio on this user gesture
-  var silent  = new SpeechSynthesisUtterance(' ');
-  silent.volume = 0;
-  silent.lang   = 'de-DE';
-  window.speechSynthesis.speak(silent);
-
-  ttsRate    = parseFloat(document.getElementById('rate-slider').value);
-  dialogue   = dlg;
-  lineIdx    = 0;
-  streak     = 0;
-  engineBusy = false;
-  currentRec = null;
-
-  maybeSave(raw, dlg);
-  updateRoleChips();
-
-  document.getElementById('streak-badge').textContent = '🔥 0';
-  document.getElementById('progress-fill').style.width = '0%';
-  var lvlLabels = {1:'👁 Szint 1 – Teljes láthatóság', 2:'✏️ Szint 2 – Hiányos szöveg', 3:'🧠 Szint 3 – Emlékezetből'};
-  document.getElementById('level-tag').textContent = lvlLabels[level];
-  document.getElementById('done-box').classList.add('hidden');
-  setStatusBox('idle');
-  renderDialogue();
-  showScreen('practice');
-
-  setTimeout(runLine, 700);
-}
-
-function runLine() {
-  if (engineBusy) return;
-  engineBusy = true;
-
-  var line = dialogue[lineIdx];
-  if (!line) { showDone(); engineBusy = false; return; }
+  var line=dlg[idx];
+  if(!line){ showDone(); busy=false; return; }
 
   updateProgress();
-  renderDialogue();
+  renderDlg();
 
-  if (line.speaker !== userRole) {
-    // ── Partner's line → TTS ──
-    setStatusBox('speaking');
-    // Always show the partner's text while speaking
-    var ptxt = document.getElementById('partner-text-display');
-    if (ptxt) ptxt.textContent = line.text;
+  if(line.speaker!==role){
+    // ── Partner's line: TTS ──
+    showCard('c-speak');
+    $('partner-txt').textContent=line.text;
 
-    speakGerman(line.text, ttsRate, function(ok) {
-      engineBusy = false;
-      lineIdx++;
-      setTimeout(runLine, 500);
+    speakText(line.text, ttsRate, function(ok){
+      if(!ok){
+        // TTS failed → show manual play card
+        busy=false;
+        showCard('c-stalled');
+        $('stalled-txt').textContent=line.text;
+        stalledLine=line;
+        setupPlayBtn(line.text);
+      } else {
+        busy=false;
+        idx++;
+        setTimeout(runLine,400);
+      }
     });
 
   } else {
-    // ── User's line → listen ──
-    setStatusBox('listening');
-    var liveEl = document.getElementById('live-text');
-    if (liveEl) liveEl.textContent = '';
-
-    setTimeout(function() {
-      currentRec = listenOnce(line.text, function(spokenText) {
-        streak++;
-        document.getElementById('streak-badge').textContent = '🔥 ' + streak;
-        engineBusy = false;
-        lineIdx++;
-        setTimeout(runLine, 300);
+    // ── User's line ──
+    attempts=0;
+    showCard('c-listen');
+    $('live-txt').textContent='';
+    setTimeout(function(){
+      rec=listenOnce(line.text, function(spoken){
+        evaluateAnswer(spoken, line.text);
       });
-    }, 300);
+    },300);
   }
 }
 
-function skipLine() {
-  window.speechSynthesis && window.speechSynthesis.cancel();
-  if (currentRec) { try { currentRec.abort(); } catch(e){} currentRec = null; }
-  engineBusy = false;
-  setStatusBox('idle');
-  lineIdx++;
-  setTimeout(runLine, 200);
+function evaluateAnswer(spoken, expected){
+  busy=false;
+  var sim=similarity(spoken, expected);
+  if(sim>=THRESHOLD){
+    // Correct!
+    streak++;
+    $('streak').textContent='🔥 '+streak;
+    attempts=0;
+    hideAllCards();
+    idx++;
+    setTimeout(runLine,300);
+  } else {
+    attempts++;
+    showCard('c-wrong');
+    $('correct-line').textContent=expected;
+    if(spoken.trim()){
+      $('you-said').textContent='Te mondtad: „'+spoken+'"';
+      $('you-said').style.display='block';
+    } else {
+      $('you-said').style.display='none';
+    }
+    if(attempts>=2){
+      $('attempts-txt').textContent='2. próba – a helyes szöveget látod fent. Mondd el, majd próbáld újra!';
+    } else {
+      $('attempts-txt').textContent='Próbálkozás: '+attempts+'/2 – próbáld meg még egyszer!';
+    }
+  }
 }
 
-function restartPractice() {
+function retryLine(){
+  hideAllCards();
+  showCard('c-listen');
+  $('live-txt').textContent='';
+  var expected=dlg[idx].text;
+  busy=true;
+  setTimeout(function(){
+    rec=listenOnce(expected, function(spoken){
+      evaluateAnswer(spoken, expected);
+    });
+  },300);
+}
+
+function forceNext(){
+  hideAllCards();
+  busy=false;
+  idx++;
+  setTimeout(runLine,200);
+}
+
+function stalledNext(){
+  hideAllCards();
+  busy=false;
+  idx++;
+  setTimeout(runLine,300);
+}
+
+function setupPlayBtn(text){
+  var btn=$('play-btn');
+  btn.onclick=function(){
+    speakText(text, ttsRate, function(){});
+  };
+}
+
+function showNoMic(expectedText, reason){
+  hideAllCards();
+  showCard('c-nomic');
+  $('nomic-reason').textContent=reason;
+  $('nomic-line').textContent=expectedText;
+}
+
+function micManualNext(){
+  hideAllCards();
+  streak++;
+  $('streak').textContent='🔥 '+streak;
+  busy=false;
+  idx++;
+  setTimeout(runLine,200);
+}
+
+function skipLine(){
+  window.speechSynthesis&&window.speechSynthesis.cancel();
+  if(rec){ try{rec.abort();}catch(e){} rec=null; }
+  busy=false;
+  hideAllCards();
+  idx++;
+  setTimeout(runLine,200);
+}
+
+function restartPractice(){
   stopAll();
-  lineIdx    = 0;
-  streak     = 0;
-  engineBusy = false;
-  document.getElementById('streak-badge').textContent = '🔥 0';
-  document.getElementById('done-box').classList.add('hidden');
-  document.getElementById('progress-fill').style.width = '0%';
-  setStatusBox('idle');
-  renderDialogue();
-  setTimeout(runLine, 500);
+  idx=0; streak=0; attempts=0;
+  $('streak').textContent='🔥 0';
+  $('done-box').classList.add('hidden');
+  $('pfill').style.width='0%';
+  hideAllCards();
+  renderDlg();
+  setTimeout(runLine,500);
 }
 
-function nextLevel() {
-  level = Math.min(level + 1, 3);
-  selectLevel(level);
-  var lvlLabels = {1:'👁 Szint 1', 2:'✏️ Szint 2', 3:'🧠 Szint 3'};
-  document.getElementById('level-tag').textContent = lvlLabels[level];
-  document.getElementById('done-box').classList.add('hidden');
+function nextLevel(){
+  lvl=Math.min(lvl+1,3);
+  setLevel(lvl);
+  var tags={1:'👁 Szint 1',2:'✏️ Szint 2',3:'🧠 Szint 3'};
+  $('lvl-tag').textContent=tags[lvl];
+  $('done-box').classList.add('hidden');
   restartPractice();
 }
 
-function replayPartner() {
-  var prev = null;
-  for (var i = lineIdx - 1; i >= 0; i--) {
-    if (dialogue[i].speaker !== userRole) { prev = dialogue[i]; break; }
+function replayPartner(){
+  for(var i=idx-1;i>=0;i--){
+    if(dlg[i].speaker!==role){
+      speakText(dlg[i].text,ttsRate,function(){});
+      break;
+    }
   }
-  if (prev) speakGerman(prev.text, ttsRate, function(){});
 }
 
-function stopAll() {
-  window.speechSynthesis && window.speechSynthesis.cancel();
-  if (currentRec) { try { currentRec.abort(); } catch(e){} currentRec = null; }
-  engineBusy = false;
-  setStatusBox('idle');
+function stopAll(){
+  window.speechSynthesis&&window.speechSynthesis.cancel();
+  if(rec){ try{rec.abort();}catch(e){} rec=null; }
+  busy=false;
+  hideAllCards();
 }
 
-// ── UI ─────────────────────────────────────────────────────────────────────
-function setStatusBox(state) {
-  document.getElementById('box-speaking').classList.toggle('hidden', state !== 'speaking');
-  document.getElementById('box-listening').classList.toggle('hidden', state !== 'listening');
-  document.getElementById('box-warn').classList.toggle('hidden', state !== 'warn');
+// ── UI helpers ─────────────────────────────────────────────────────────────
+var CARDS=['c-speak','c-stalled','c-listen','c-wrong','c-nomic'];
+function hideAllCards(){ CARDS.forEach(function(c){ $(c).classList.add('hidden'); }); }
+function showCard(id){ $(id).classList.remove('hidden'); }
+
+function updateProgress(){
+  var pct=dlg.length?(idx/dlg.length)*100:0;
+  $('pfill').style.width=pct+'%';
 }
 
-function updateProgress() {
-  var pct = dialogue.length ? (lineIdx / dialogue.length) * 100 : 0;
-  document.getElementById('progress-fill').style.width = pct + '%';
-}
+function renderDlg(){
+  var box=$('dlg'); box.innerHTML='';
+  var mwords=null;
+  if(dlg[idx]&&dlg[idx].speaker===role&&lvl===2) mwords=maskWords(dlg[idx].text);
 
-function renderDialogue() {
-  var box = document.getElementById('dlg-box');
-  box.innerHTML = '';
+  dlg.forEach(function(line,i){
+    var isUser=line.speaker===role;
+    var isCur=i===idx, isPast=i<idx, isFuture=i>idx;
 
-  dialogue.forEach(function(line, i) {
-    var isUser   = line.speaker === userRole;
-    var isCur    = i === lineIdx;
-    var isPast   = i < lineIdx;
-    var isFuture = i > lineIdx;
+    var wrap=document.createElement('div');
+    wrap.className='lw'
+      +(isUser?' user-line':'')
+      +(isCur?' current':isPast?' past':isFuture?' future':'');
 
-    var wrap = document.createElement('div');
-    wrap.className = 'line-wrap'
-      + (isUser   ? ' user'    : '')
-      + (isCur    ? ' current' : '')
-      + (isPast   ? ' past'    : '')
-      + (isFuture ? ' future'  : '');
-
-    if (!isUser) {
-      var dot = document.createElement('div');
-      dot.className = 'dot';
-      dot.textContent = line.speaker;
-      wrap.appendChild(dot);
+    if(!isUser){
+      var d=document.createElement('div');
+      d.className='dot'; d.textContent=line.speaker;
+      wrap.appendChild(d);
     }
 
-    var bub = document.createElement('div');
-    bub.className = 'bubble ' + (isUser ? 'user' : 'partner');
-    if (isCur && isUser && level === 1) bub.classList.add('faded');
+    var bub=document.createElement('div');
+    bub.className='bub '+(isUser?'u':'p');
+    if(isCur&&isUser&&lvl===1) bub.classList.add('dim');
 
-    if (isCur && isUser && level === 2) {
-      maskWords(line.text).forEach(function(w) {
-        if (w.masked) {
-          var sp = document.createElement('span');
-          sp.className = 'masked';
-          sp.textContent = '_'.repeat(Math.max(w.word.replace(/[^a-zA-ZäöüÄÖÜß]/g,'').length, 3));
+    if(isCur&&isUser&&lvl===2&&mwords){
+      mwords.forEach(function(w){
+        if(w.masked){
+          var sp=document.createElement('span');
+          sp.className='masked';
+          sp.textContent='_'.repeat(Math.max(w.word.replace(/[^a-zA-ZäöüÄÖÜß]/g,'').length,3));
           bub.appendChild(sp);
-        } else {
-          bub.appendChild(document.createTextNode(w.word));
-        }
+        } else { bub.appendChild(document.createTextNode(w.word)); }
         bub.appendChild(document.createTextNode(' '));
       });
-    } else if (isCur && isUser && level === 3) {
-      var em = document.createElement('em');
-      em.style.opacity = '.35';
-      em.textContent = 'Emlékezetből…';
+    } else if(isCur&&isUser&&lvl===3){
+      var em=document.createElement('em');
+      em.style.opacity='.35'; em.textContent='Emlékezetből…';
       bub.appendChild(em);
-    } else {
-      bub.textContent = line.text;
-    }
+    } else { bub.textContent=line.text; }
 
     wrap.appendChild(bub);
 
-    if (isUser) {
-      var udot = document.createElement('div');
-      udot.className = 'dot user-dot';
-      udot.textContent = line.speaker;
-      wrap.appendChild(udot);
+    if(isUser){
+      var ud=document.createElement('div');
+      ud.className='dot u'; ud.textContent=line.speaker;
+      wrap.appendChild(ud);
     }
-
     box.appendChild(wrap);
   });
 
-  // scroll to current line
-  var active = box.querySelector('.current');
-  if (active) active.scrollIntoView({ behavior:'smooth', block:'center' });
+  var cur=box.querySelector('.current');
+  if(cur) cur.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
-function showDone() {
-  setStatusBox('idle');
-  document.getElementById('progress-fill').style.width = '100%';
-  document.getElementById('done-sub').textContent = 'Streak: 🔥 ' + streak + ' · Szint: ' + level + '/3';
-  document.getElementById('next-level-btn').style.display = level < 3 ? 'block' : 'none';
-  document.getElementById('done-box').classList.remove('hidden');
+function showDone(){
+  hideAllCards();
+  $('pfill').style.width='100%';
+  $('done-info').textContent='Streak: 🔥 '+streak+' · Szint: '+lvl+'/3';
+  $('next-lvl-btn').style.display=lvl<3?'block':'none';
+  $('done-box').classList.remove('hidden');
 }
 </script>
 </body>
