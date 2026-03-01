@@ -3,62 +3,71 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>DeutschDialog</title>
+<title>DialogTrainer</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--bg:#0c0c14;--fg:#e9e5d8;--green:#4ade80;--yellow:#facc15;--red:#f87171;--border:rgba(255,255,255,0.10);}
+:root{
+  --bg:#0c0c14;--fg:#e9e5d8;
+  --green:#4ade80;--yellow:#facc15;--red:#f87171;--blue:#60a5fa;
+  --border:rgba(255,255,255,0.10);--card:rgba(255,255,255,0.04);
+}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--fg);font-family:'Lora',Georgia,serif;min-height:100vh;display:flex;justify-content:center;}
-#app{width:100%;max-width:480px;padding:20px 16px 60px;display:flex;flex-direction:column;gap:12px;}
-
+#app{width:100%;max-width:480px;padding:20px 16px 70px;display:flex;flex-direction:column;gap:12px;}
 .screen{display:flex;flex-direction:column;gap:12px;}
-.screen.hidden{display:none;}
+.hidden{display:none!important;}
 
 /* Hero */
-.hero{display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:24px;}
-.hero h1{font-size:36px;font-weight:700;letter-spacing:-1px;background:linear-gradient(135deg,var(--fg) 30%,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero{display:flex;flex-direction:column;align-items:center;gap:13px;padding-top:24px;}
+.hero h1{font-size:34px;font-weight:700;letter-spacing:-1px;background:linear-gradient(135deg,var(--fg) 30%,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .hero p{font-size:13px;opacity:.5;font-style:italic;}
 .intro-cards{display:flex;flex-direction:column;gap:6px;width:100%;margin-top:4px;}
-.intro-card{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid;border-radius:10px;padding:9px 13px;font-size:13px;}
-.intro-card b{font-size:12px;}
+.intro-card{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid;border-radius:10px;padding:9px 13px;}
+.intro-card strong{font-size:12px;}
 .intro-card small{font-size:11px;opacity:.55;}
 
 /* Buttons */
-.btn{background:var(--green);color:#000;border:none;border-radius:10px;padding:13px 20px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;transition:opacity .15s,transform .15s;}
-.btn:hover{opacity:.88;transform:translateY(-1px);}
-.btn:active{transform:translateY(0);}
+.btn{background:var(--green);color:#000;border:none;border-radius:10px;padding:13px 20px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;transition:opacity .15s,transform .1s;}
+.btn:hover{opacity:.88;}
+.btn:active{transform:scale(.98);}
 .btn.yellow{background:var(--yellow);}
-.btn.red{background:var(--red);}
-.btn.gray{background:rgba(255,255,255,.1);color:var(--fg);}
+.btn.blue{background:var(--blue);color:#000;}
+.btn.soft{background:rgba(255,255,255,.09);color:var(--fg);}
 .ghost{background:transparent;color:var(--fg);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;cursor:pointer;font-family:inherit;width:100%;}
 .ghost:hover{background:rgba(255,255,255,.06);}
 .back{background:none;border:none;color:#666;cursor:pointer;font-size:13px;font-family:inherit;padding:0;align-self:flex-start;}
 .row{display:flex;gap:8px;}
-.row .ghost,.row .btn{flex:1;}
+.row>.ghost,.row>.btn{flex:1;}
 
 /* Form */
 .lbl{font-size:11px;font-weight:700;opacity:.5;text-transform:uppercase;letter-spacing:.9px;}
 textarea{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--fg);font-family:'JetBrains Mono',monospace;font-size:13px;padding:12px;resize:vertical;outline:none;line-height:1.7;width:100%;}
 textarea:focus{border-color:rgba(74,222,128,.5);}
 .hint{font-size:11px;opacity:.38;}
-.chips{display:flex;gap:8px;}
-.chip{flex:1;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;}
+.chips{display:flex;gap:8px;flex-wrap:wrap;}
+.chip{padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;}
 .chip.on{background:var(--green);color:#000;border-color:var(--green);}
-.lvl-btn{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--fg);cursor:pointer;font-family:inherit;width:100%;text-align:left;}
-.lvl-btn:hover{background:rgba(255,255,255,.05);}
-.lvl-btn.on{background:rgba(74,222,128,.07);}
+.lvl-btn{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--fg);cursor:pointer;font-family:inherit;width:100%;text-align:left;}
+.lvl-btn:hover,.lvl-btn.on{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.3);}
 .lvl-btn .ln{font-weight:700;font-size:13px;}
 .lvl-btn .ld{font-size:11px;opacity:.6;}
-input[type=range]{-webkit-appearance:none;height:3px;border-radius:2px;background:rgba(255,255,255,.12);width:100%;accent-color:var(--green);}
+input[type=range]{-webkit-appearance:none;height:3px;border-radius:2px;background:rgba(255,255,255,.12);width:100%;}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--green);cursor:pointer;}
 
-/* Saved */
-.saved-item{display:flex;justify-content:space-between;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;}
-.saved-item:hover{background:rgba(255,255,255,.07);}
-.saved-item .st{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;}
-.saved-item .sd{font-size:11px;opacity:.4;flex-shrink:0;}
+/* Lang selector */
+.lang-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.lang-card{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 8px;border-radius:10px;border:1px solid var(--border);background:var(--card);cursor:pointer;font-family:inherit;color:var(--fg);}
+.lang-card:hover,.lang-card.on{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.35);}
+.lang-card .flag{font-size:28px;}
+.lang-card .lname{font-size:12px;font-weight:600;}
 
-/* Practice header */
+/* Saved */
+.saved-item{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;}
+.saved-item:hover{background:rgba(255,255,255,.07);}
+.saved-item span{font-size:13px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.saved-item small{font-size:11px;opacity:.4;flex-shrink:0;}
+
+/* Practice */
 .prac-hdr{display:flex;justify-content:space-between;align-items:center;}
 .streak{background:rgba(255,150,0,.15);border:1px solid rgba(255,150,0,.3);border-radius:16px;padding:3px 10px;font-size:13px;font-weight:700;}
 .pbar{height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
@@ -66,37 +75,38 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 .lvl-tag{text-align:center;font-size:10px;opacity:.4;text-transform:uppercase;letter-spacing:1px;}
 
 /* Dialogue */
-.dlg{display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:13px;padding:13px;min-height:150px;max-height:280px;overflow-y:auto;}
+.dlg{display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:13px;padding:13px;min-height:140px;max-height:260px;overflow-y:auto;}
 .dlg::-webkit-scrollbar{width:3px;}
 .dlg::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px;}
-.lw{display:flex;align-items:flex-end;gap:7px;transition:all .25s ease;}
-.lw.user-line{justify-content:flex-end;}
-.lw.past{opacity:.38;}
-.lw.future{opacity:.13;}
-.lw.current{transform:scale(1.02);}
+.lw{display:flex;align-items:flex-end;gap:7px;transition:all .25s;}
+.lw.ur{justify-content:flex-end;}
+.lw.past{opacity:.35;}
+.lw.future{opacity:.12;}
+.lw.cur{transform:scale(1.02);}
 .dot{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
 .dot.u{background:var(--green);color:#000;}
 .bub{max-width:82%;padding:8px 12px;border-radius:12px;font-size:14px;line-height:1.55;}
 .bub.p{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10);border-bottom-left-radius:3px;}
 .bub.u{background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.25);color:#c8f7d8;border-bottom-right-radius:3px;}
-.bub.dim{opacity:.4;}
-.masked{background:rgba(250,204,21,.2);border-radius:3px;padding:1px 3px;color:var(--yellow);font-family:'JetBrains Mono',monospace;letter-spacing:2px;}
+.bub.dim{opacity:.38;}
+.msk{background:rgba(250,204,21,.2);border-radius:3px;padding:1px 3px;color:var(--yellow);font-family:'JetBrains Mono',monospace;letter-spacing:2px;}
 
 /* Status cards */
-.card{display:flex;flex-direction:column;align-items:center;gap:9px;border:1px solid var(--border);border-radius:13px;padding:16px 14px;font-size:13px;}
-.card.hidden{display:none;}
-.card.speak-card{background:rgba(255,255,255,.03);}
-.card.listen-card{background:rgba(74,222,128,.05);border-color:rgba(74,222,128,.3);}
-.card.wrong-card{background:rgba(248,113,113,.06);border-color:rgba(248,113,113,.3);}
-.card.stalled-card{background:rgba(250,204,21,.05);border-color:rgba(250,204,21,.3);}
+.scard{display:flex;flex-direction:column;align-items:center;gap:9px;border:1px solid var(--border);border-radius:13px;padding:16px 14px;}
+.scard.speak{background:rgba(96,165,250,.05);border-color:rgba(96,165,250,.25);}
+.scard.listen{background:rgba(74,222,128,.05);border-color:rgba(74,222,128,.3);}
+.scard.wrong{background:rgba(248,113,113,.06);border-color:rgba(248,113,113,.3);}
+.scard.warn{background:rgba(250,204,21,.05);border-color:rgba(250,204,21,.3);}
 
-/* TTS stall: big play button */
-.play-tts-btn{font-size:32px;background:rgba(255,255,255,.07);border:2px solid var(--border);border-radius:50%;width:64px;height:64px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
-.play-tts-btn:hover{background:rgba(255,255,255,.14);}
+/* TTS play button – BIG, obvious */
+.play-big{width:72px;height:72px;border-radius:50%;background:rgba(96,165,250,.15);border:2px solid rgba(96,165,250,.5);font-size:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .1s;}
+.play-big:hover{background:rgba(96,165,250,.28);transform:scale(1.06);}
+.play-big.playing{background:rgba(96,165,250,.25);animation:glow 1s ease-in-out infinite;}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(96,165,250,.4)}50%{box-shadow:0 0 0 12px rgba(96,165,250,0)}}
 
-/* Wave */
+/* Waves */
 .waves{display:flex;gap:4px;align-items:center;}
-.wave{width:4px;height:18px;background:var(--fg);border-radius:2px;animation:wv .7s ease-in-out infinite;}
+.wave{width:4px;height:18px;background:var(--blue);border-radius:2px;animation:wv .7s ease-in-out infinite;}
 @keyframes wv{0%,100%{transform:scaleY(.2);opacity:.3}50%{transform:scaleY(1.4);opacity:1}}
 
 /* Mic */
@@ -104,17 +114,14 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 14px rgba(74,222,128,0)}}
 
 .live-txt{background:rgba(255,255,255,.06);border-radius:8px;padding:6px 12px;font-size:13px;font-style:italic;text-align:center;min-height:30px;width:100%;opacity:.85;}
-.partner-txt{font-size:15px;text-align:center;line-height:1.6;color:var(--fg);opacity:.9;}
-
-/* Wrong answer */
-.wrong-title{font-weight:700;color:var(--red);font-size:14px;}
-.correct-line{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);border-radius:8px;padding:8px 12px;font-size:14px;color:#c8f7d8;text-align:center;width:100%;line-height:1.6;}
-.you-said{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);border-radius:8px;padding:6px 12px;font-size:12px;color:#fca5a5;text-align:center;width:100%;opacity:.8;}
-.attempts{font-size:12px;opacity:.45;}
+.partner-display{font-size:15px;text-align:center;line-height:1.6;padding:0 4px;}
+.correct-box{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);border-radius:8px;padding:8px 12px;font-size:14px;color:#c8f7d8;text-align:center;width:100%;line-height:1.6;}
+.you-said-box{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);border-radius:8px;padding:6px 12px;font-size:12px;color:#fca5a5;text-align:center;width:100%;}
+.attempt-info{font-size:12px;opacity:.45;text-align:center;}
 
 /* Done */
 .done-box{display:flex;flex-direction:column;align-items:center;gap:12px;background:rgba(74,222,128,.05);border:1px solid rgba(74,222,128,.15);border-radius:16px;padding:24px;}
-.done-box .emoji{font-size:50px;}
+.done-box .emo{font-size:50px;}
 .done-box h3{font-size:21px;font-weight:700;}
 .done-box p{opacity:.5;font-size:13px;}
 </style>
@@ -125,17 +132,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 <!-- ══ HOME ══ -->
 <div id="s-home" class="screen">
   <div class="hero">
-    <div style="font-size:56px">🇩🇪</div>
-    <h1>DeutschDialog</h1>
-    <p>Párbeszéd-alapú német nyelvgyakorlás</p>
+    <div style="font-size:54px">🗣️</div>
+    <h1>DialogTrainer</h1>
+    <p>Párbeszéd-alapú nyelvgyakorlás</p>
     <div class="intro-cards">
-      <div class="intro-card" style="border-color:#4ade80"><span>👁</span><div><b style="color:#4ade80">Szint 1 – Teljes láthatóság</b><br><small>Saját szöveg halványítva látható</small></div></div>
-      <div class="intro-card" style="border-color:#facc15"><span>✏️</span><div><b style="color:#facc15">Szint 2 – Hiányos szöveg</b><br><small>Egyes szavak kitakarva</small></div></div>
-      <div class="intro-card" style="border-color:#f87171"><span>🧠</span><div><b style="color:#f87171">Szint 3 – Emlékezetből</b><br><small>Csak a partner hangját hallod</small></div></div>
+      <div class="intro-card" style="border-color:#4ade80"><span>👁</span><div><strong style="color:#4ade80">Szint 1 – Teljes láthatóság</strong><br><small>Saját szöveg halványítva látható</small></div></div>
+      <div class="intro-card" style="border-color:#facc15"><span>✏️</span><div><strong style="color:#facc15">Szint 2 – Hiányos szöveg</strong><br><small>Egyes szavak kitakarva</small></div></div>
+      <div class="intro-card" style="border-color:#f87171"><span>🧠</span><div><strong style="color:#f87171">Szint 3 – Emlékezetből</strong><br><small>Csak a partner hangját hallod</small></div></div>
     </div>
     <button class="btn" onclick="go('setup')">Kezdjük el →</button>
     <button class="ghost" id="saved-btn" style="display:none" onclick="toggleSaved()">📂 Mentett párbeszédek</button>
-    <div id="saved-list" style="display:none;flex-direction:column;gap:6px;width:100%"></div>
+    <div id="saved-list" class="hidden" style="display:flex;flex-direction:column;gap:6px;width:100%"></div>
   </div>
 </div>
 
@@ -143,17 +150,36 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 <div id="s-setup" class="screen hidden">
   <button class="back" onclick="go('home')">← Vissza</button>
   <h2 style="font-size:21px;font-weight:700">Beállítások</h2>
+
+  <label class="lbl">🌍 Nyelv</label>
+  <div class="lang-grid">
+    <button class="lang-card on" id="lang-de" onclick="setLang('de')">
+      <span class="flag">🇩🇪</span><span class="lname">Német</span>
+    </button>
+    <button class="lang-card" id="lang-en" onclick="setLang('en')">
+      <span class="flag">🇬🇧</span><span class="lname">Angol</span>
+    </button>
+    <button class="lang-card" id="lang-es" onclick="setLang('es')">
+      <span class="flag">🇪🇸</span><span class="lname">Spanyol</span>
+    </button>
+  </div>
+
   <label class="lbl">Párbeszéd szövege</label>
   <textarea id="raw" rows="9"></textarea>
   <p class="hint">Formátum: <code>A: szöveg</code> / <code>B: szöveg</code> – soronként</p>
+
   <label class="lbl">Szereped</label>
   <div class="chips" id="role-chips"></div>
+
   <label class="lbl">Szint</label>
   <button class="lvl-btn on" id="lvl-1" onclick="setLevel(1)"><span>👁</span><div><div class="ln">Szint 1 – Teljes láthatóság</div><div class="ld">Saját szöveg halványítva látható</div></div></button>
   <button class="lvl-btn" id="lvl-2" onclick="setLevel(2)"><span>✏️</span><div><div class="ln">Szint 2 – Hiányos szöveg</div><div class="ld">Egyes szavak kitakarva</div></div></button>
   <button class="lvl-btn" id="lvl-3" onclick="setLevel(3)"><span>🧠</span><div><div class="ln">Szint 3 – Emlékezetből</div><div class="ld">Csak a partner hangját hallod</div></div></button>
+
   <label class="lbl">TTS sebesség: <span id="rate-lbl">0.85×</span></label>
-  <input type="range" id="rate-sl" min="0.5" max="1.5" step="0.05" value="0.85" oninput="$('rate-lbl').textContent=parseFloat(this.value).toFixed(2)+'×'"/>
+  <input type="range" id="rate-sl" min="0.5" max="1.5" step="0.05" value="0.85"
+    oninput="$('rate-lbl').textContent=parseFloat(this.value).toFixed(2)+'×'"/>
+
   <button class="btn" onclick="startPractice()">🎯 Gyakorlás indítása</button>
 </div>
 
@@ -168,54 +194,42 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 
   <div class="dlg" id="dlg"></div>
 
-  <!-- CARD: partner speaking -->
-  <div class="card speak-card hidden" id="c-speak">
-    <div class="waves">
-      <div class="wave" style="animation-delay:0s"></div>
-      <div class="wave" style="animation-delay:.1s"></div>
-      <div class="wave" style="animation-delay:.2s"></div>
-      <div class="wave" style="animation-delay:.3s"></div>
-      <div class="wave" style="animation-delay:.4s"></div>
-    </div>
-    <div class="partner-txt" id="partner-txt"></div>
+  <!-- PARTNER CARD: user must press play -->
+  <div class="scard speak hidden" id="c-speak">
+    <div style="font-size:12px;opacity:.6;font-weight:600;color:var(--blue)">PARTNER SORA</div>
+    <div class="partner-display" id="partner-txt"></div>
+    <button class="play-big" id="play-btn" onclick="pressTTS()" title="Lejátszás">▶</button>
+    <div style="font-size:11px;opacity:.45">Nyomj ▶ a hangos felolvasáshoz</div>
+    <button class="btn" onclick="partnerDone()">✓ Meghallgattam, tovább →</button>
   </div>
 
-  <!-- CARD: TTS stalled – manual play -->
-  <div class="card stalled-card hidden" id="c-stalled">
-    <div style="font-size:13px;opacity:.7;font-weight:700;color:var(--yellow)">🔇 Hang nem indult el automatikusan</div>
-    <div class="partner-txt" id="stalled-txt" style="font-size:14px"></div>
-    <button class="play-tts-btn" id="play-btn" title="Lejátszás">▶</button>
-    <div style="font-size:11px;opacity:.45">Kattints a ▶ gombra a lejátszáshoz, majd lépj tovább</div>
-    <button class="btn" onclick="stalledNext()">✓ Meghallgattam, tovább →</button>
-  </div>
-
-  <!-- CARD: user listening -->
-  <div class="card listen-card hidden" id="c-listen">
+  <!-- USER CARD: listening -->
+  <div class="scard listen hidden" id="c-listen">
     <div class="mic-ring">🎙</div>
     <div style="text-align:center">
       <div style="font-weight:700;color:var(--green);font-size:15px">Hallgatlak…</div>
-      <div style="font-size:12px;opacity:.5;margin-top:3px">Mondd el a mondatodat, majd állj meg</div>
+      <div style="font-size:12px;opacity:.5;margin-top:3px">Mondd el a mondatot, majd állj meg</div>
     </div>
     <div class="live-txt" id="live-txt"></div>
   </div>
 
-  <!-- CARD: wrong answer -->
-  <div class="card wrong-card hidden" id="c-wrong">
-    <div class="wrong-title">❌ Nem egészen…</div>
-    <div style="font-size:12px;opacity:.55">Helyes szöveg:</div>
-    <div class="correct-line" id="correct-line"></div>
-    <div class="you-said" id="you-said"></div>
-    <div class="attempts" id="attempts-txt"></div>
-    <button class="btn" onclick="retryLine()">🔄 Próbáld újra</button>
-    <button class="ghost" onclick="forceNext()" style="font-size:12px">Kihagyom ezt a sort →</button>
+  <!-- WRONG ANSWER CARD -->
+  <div class="scard wrong hidden" id="c-wrong">
+    <div style="font-weight:700;color:var(--red);font-size:14px">❌ Nem egészen…</div>
+    <div style="font-size:12px;opacity:.55">Helyes mondat:</div>
+    <div class="correct-box" id="correct-txt"></div>
+    <div class="you-said-box hidden" id="you-said"></div>
+    <div class="attempt-info" id="attempt-info"></div>
+    <button class="btn" onclick="retryListen()">🔄 Próbáld újra</button>
+    <button class="ghost" style="font-size:12px" onclick="forceNext()">Kihagyom →</button>
   </div>
 
-  <!-- CARD: no mic -->
-  <div class="card stalled-card hidden" id="c-nomic">
+  <!-- NO MIC CARD -->
+  <div class="scard warn hidden" id="c-nomic">
     <div style="font-weight:700;color:var(--yellow);font-size:13px">🎤 Mikrofon nem elérhető</div>
     <div style="font-size:12px;opacity:.6;text-align:center" id="nomic-reason"></div>
-    <div style="font-size:12px;opacity:.55">Mondd el hangosan ezt a mondatot:</div>
-    <div class="correct-line" id="nomic-line"></div>
+    <div style="font-size:12px;opacity:.55">Mondd el hangosan:</div>
+    <div class="correct-box" id="nomic-line"></div>
     <button class="btn" onclick="micManualNext()">✓ Elmondtam, tovább →</button>
   </div>
 
@@ -225,9 +239,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
     <button class="ghost" onclick="restartPractice()">🔄 Újra</button>
   </div>
 
-  <!-- done -->
+  <!-- DONE -->
   <div class="done-box hidden" id="done-box">
-    <div class="emoji">🎉</div>
+    <div class="emo">🎉</div>
     <h3>Vége!</h3>
     <p id="done-info"></p>
     <button class="btn yellow" id="next-lvl-btn" onclick="nextLevel()" style="display:none">⬆ Következő szint</button>
@@ -240,28 +254,36 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 <script>
 // ── Helpers ────────────────────────────────────────────────────────────────
 function $(id){ return document.getElementById(id); }
+function show(id){ $(id).classList.remove('hidden'); }
+function hide(id){ $(id).classList.add('hidden'); }
+
+// ── Languages ──────────────────────────────────────────────────────────────
+var LANGS = {
+  de: { code:'de-DE', flag:'🇩🇪', name:'Német',   sample:'A: Guten Morgen! Wie geht es dir?\nB: Mir geht es gut, danke. Und dir?\nA: Auch gut. Was machst du heute?\nB: Ich gehe zur Arbeit. Und du?\nA: Ich lerne Deutsch. Es macht Spaß!\nB: Das ist wunderbar! Viel Erfolg!' },
+  en: { code:'en-GB', flag:'🇬🇧', name:'Angol',   sample:'A: Good morning! How are you?\nB: I\'m fine, thank you. And you?\nA: Very well. What are you doing today?\nB: I\'m going to work. And you?\nA: I\'m learning English. It\'s fun!\nB: That\'s wonderful! Good luck!' },
+  es: { code:'es-ES', flag:'🇪🇸', name:'Spanyol', sample:'A: ¡Buenos días! ¿Cómo estás?\nB: Estoy bien, gracias. ¿Y tú?\nA: Muy bien. ¿Qué haces hoy?\nB: Voy al trabajo. ¿Y tú?\nA: Estoy aprendiendo español. ¡Es divertido!\nB: ¡Qué maravilloso! ¡Buena suerte!' }
+};
+var lang = 'de';
+
+function setLang(l){
+  lang = l;
+  ['de','en','es'].forEach(function(x){
+    $('lang-'+x).classList.toggle('on', x===l);
+  });
+  $('raw').value = LANGS[l].sample;
+  refreshChips();
+}
 
 // ── State ──────────────────────────────────────────────────────────────────
-var dlg        = [];   // parsed dialogue
-var role       = 'A';  // user's role
-var lvl        = 1;
-var idx        = 0;    // current line index
-var streak     = 0;
-var attempts   = 0;    // wrong attempts for current user line
-var busy       = false;
-var rec        = null;
-var ttsRate    = 0.85;
-var saved      = [];
-var stalledLine= null; // line waiting for manual TTS play
-
-var SAMPLE = 'A: Guten Morgen! Wie geht es dir?\nB: Mir geht es gut, danke. Und dir?\nA: Auch gut. Was machst du heute?\nB: Ich gehe zur Arbeit. Und du?\nA: Ich lerne Deutsch. Es macht Spaß!\nB: Das ist wunderbar! Viel Erfolg!';
+var dlg=[], role='A', lvl=1, idx=0, streak=0, attempts=0;
+var busy=false, rec=null, ttsRate=0.85;
+var saved=[], currentPartnerLine='';
 
 // ── Init ───────────────────────────────────────────────────────────────────
 window.onload = function(){
-  $('raw').value = SAMPLE;
+  $('raw').value = LANGS['de'].sample;
   loadSaved();
   refreshChips();
-  // Pre-warm voices
   if(window.speechSynthesis){
     window.speechSynthesis.getVoices();
     window.speechSynthesis.onvoiceschanged = function(){};
@@ -269,45 +291,43 @@ window.onload = function(){
 };
 
 // ── Navigation ─────────────────────────────────────────────────────────────
-function go(screen){
-  ['home','setup','practice'].forEach(function(s){
-    $(('s-'+s)).classList.toggle('hidden', s!==screen);
+function go(s){
+  ['home','setup','practice'].forEach(function(n){
+    $('s-'+n).classList.toggle('hidden', n!==s);
   });
 }
 
 // ── Saved ──────────────────────────────────────────────────────────────────
 function loadSaved(){
-  try{ saved=JSON.parse(localStorage.getItem('de_dlg')||'[]'); }catch(e){ saved=[]; }
+  try{ saved=JSON.parse(localStorage.getItem('dlg_v2')||'[]'); }catch(e){ saved=[]; }
   var btn=$('saved-btn');
-  btn.style.display=saved.length?'block':'none';
-  btn.textContent='📂 Mentett párbeszédek ('+saved.length+')';
+  if(saved.length){ btn.style.display='block'; btn.textContent='📂 Mentett párbeszédek ('+saved.length+')'; }
+  else btn.style.display='none';
 }
 function toggleSaved(){
   var el=$('saved-list');
-  if(el.style.display==='flex'){el.style.display='none';return;}
+  if(el.style.display==='flex'){ el.style.display='none'; return; }
   el.innerHTML='';
   saved.forEach(function(item){
     var d=document.createElement('div');
     d.className='saved-item';
-    d.innerHTML='<span class="st">'+item.title+'</span><span class="sd">'+item.date+'</span>';
-    d.onclick=function(){ $('raw').value=item.raw; el.style.display='none'; refreshChips(); go('setup'); };
+    d.innerHTML='<span>'+item.title+'</span><small>'+item.date+' · '+item.flag+'</small>';
+    d.onclick=function(){ $('raw').value=item.raw; lang=item.lang||'de'; setLang(lang); el.style.display='none'; go('setup'); };
     el.appendChild(d);
   });
   el.style.display='flex';
 }
 function maybeSave(raw,parsed){
   if(!saved.find(function(x){return x.raw===raw;})){
-    var title=parsed[0].text.slice(0,38)+'…';
-    var date=new Date().toLocaleDateString('hu');
-    saved=[{raw:raw,title:title,date:date}].concat(saved).slice(0,10);
-    localStorage.setItem('de_dlg',JSON.stringify(saved));
+    saved=[{raw:raw,lang:lang,flag:LANGS[lang].flag,title:parsed[0].text.slice(0,36)+'…',date:new Date().toLocaleDateString('hu')}].concat(saved).slice(0,12);
+    localStorage.setItem('dlg_v2',JSON.stringify(saved));
     loadSaved();
   }
 }
 
 // ── Setup ──────────────────────────────────────────────────────────────────
 function getSpeakers(){
-  var raw=$('raw').value, found=[];
+  var raw=$('raw').value,found=[];
   raw.split('\n').forEach(function(l){
     var m=l.trim().match(/^([A-Z]):/);
     if(m&&found.indexOf(m[1])===-1) found.push(m[1]);
@@ -327,143 +347,116 @@ function refreshChips(){
   });
 }
 $('raw') && $('raw').addEventListener('input', refreshChips);
+
 function setLevel(n){
   lvl=n;
   [1,2,3].forEach(function(i){ $('lvl-'+i).classList.toggle('on',i===n); });
 }
 
 // ── Parse ──────────────────────────────────────────────────────────────────
-function parse(raw){
+function parseDlg(raw){
   return raw.split('\n').map(function(l){return l.trim();}).filter(Boolean).reduce(function(a,l){
     var m=l.match(/^([A-Z]):\s*(.+)$/); if(m) a.push({speaker:m[1],text:m[2]}); return a;
   },[]);
 }
 function maskWords(text){
   return text.split(' ').map(function(w){
-    var c=w.replace(/[^a-zA-ZäöüÄÖÜß]/g,'');
-    return {word:w,masked:c.length>4&&Math.random()<0.5};
+    var c=w.replace(/[^a-zA-ZäöüÄÖÜßáéíóúñ]/g,'');
+    return {word:w, masked:c.length>4&&Math.random()<0.5};
   });
 }
 
-// ── TTS – robust implementation ────────────────────────────────────────────
-var cachedVoice=null;
-function getGermanVoice(){
-  if(cachedVoice) return cachedVoice;
+// ── TTS ────────────────────────────────────────────────────────────────────
+function getBestVoice(langCode){
   var voices=window.speechSynthesis.getVoices();
-  cachedVoice=voices.find(function(v){return v.lang==='de-DE';})
-    ||voices.find(function(v){return v.lang.startsWith('de');})
-    ||null;
-  return cachedVoice;
+  // Try exact match first
+  var v=voices.find(function(v){return v.lang===langCode;});
+  if(!v) v=voices.find(function(v){return v.lang.startsWith(langCode.split('-')[0]);});
+  return v||null;
 }
 
-function speakText(text, rate, onDone){
+// The key insight: we DON'T auto-play. User presses ▶ button.
+// This guarantees the browser allows audio (user gesture).
+function pressTTS(){
+  var btn=$('play-btn');
+  btn.classList.add('playing');
+  btn.textContent='⏸';
+
   var synth=window.speechSynthesis;
-  if(!synth){ onDone(false); return; }
-
   synth.cancel();
-  cachedVoice=null; // refresh voice cache after cancel
 
-  function attempt(){
-    var u=new SpeechSynthesisUtterance(text);
-    u.lang='de-DE';
-    u.rate=rate;
-    u.pitch=1;
-    u.volume=1;
-    var v=getGermanVoice();
-    if(v) u.voice=v;
+  var u=new SpeechSynthesisUtterance(currentPartnerLine);
+  u.lang  = LANGS[lang].code;
+  u.rate  = ttsRate;
+  u.pitch = 1;
+  u.volume= 1;
+  var v=getBestVoice(LANGS[lang].code);
+  if(v) u.voice=v;
 
-    var done=false;
-    function finish(ok){
-      if(done) return;
-      done=true;
-      onDone(ok);
+  u.onend=u.onerror=function(){
+    btn.classList.remove('playing');
+    btn.textContent='▶';
+  };
+  synth.speak(u);
+}
+
+function replayPartner(){
+  for(var i=idx-1;i>=0;i--){
+    if(dlg[i].speaker!==role){
+      var synth=window.speechSynthesis; synth.cancel();
+      var u=new SpeechSynthesisUtterance(dlg[i].text);
+      u.lang=LANGS[lang].code; u.rate=ttsRate; u.pitch=1; u.volume=1;
+      var v=getBestVoice(LANGS[lang].code); if(v) u.voice=v;
+      synth.speak(u);
+      break;
     }
-
-    u.onstart=function(){
-      // Chrome workaround: sometimes onstart fires but audio is silent
-      // We watch speaking flag
-    };
-    u.onend=function(){ finish(true); };
-    u.onerror=function(e){
-      console.warn('TTS onerror:',e.error);
-      finish(false);
-    };
-
-    synth.speak(u);
-
-    // Check after 800ms if it actually started speaking
-    setTimeout(function(){
-      if(!done && !synth.speaking && !synth.pending){
-        console.warn('TTS: nothing happened after 800ms');
-        finish(false);
-      }
-    }, 800);
-
-    // Hard timeout fallback
-    var dur=Math.max(4000, text.length*120);
-    setTimeout(function(){ finish(false); }, dur);
-  }
-
-  // Wait for voices to load
-  var voices=synth.getVoices();
-  if(voices.length>0){
-    setTimeout(attempt, 80);
-  } else {
-    var handled=false;
-    synth.onvoiceschanged=function(){
-      if(handled) return; handled=true;
-      setTimeout(attempt,80);
-    };
-    setTimeout(function(){
-      if(!handled){ handled=true; attempt(); }
-    }, 2000);
   }
 }
 
-// ── Speech comparison ──────────────────────────────────────────────────────
+// ── Speech check ───────────────────────────────────────────────────────────
 function normalize(s){
   return s.toLowerCase()
-    .replace(/[äÄ]/g,'a').replace(/[öÖ]/g,'o').replace(/[üÜ]/g,'u').replace(/ß/g,'ss')
+    // German
+    .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+    // Spanish
+    .replace(/á/g,'a').replace(/é/g,'e').replace(/í/g,'i').replace(/ó/g,'o').replace(/ú/g,'u').replace(/ñ/g,'n')
     .replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();
 }
-function similarity(a,b){
-  a=normalize(a); b=normalize(b);
-  if(!a||!b) return 0;
+function wordSimilarity(spoken,expected){
+  var a=normalize(spoken), b=normalize(expected);
+  if(!a) return 0;
   if(a===b) return 1;
-  // Word overlap ratio
   var wa=a.split(' '), wb=b.split(' ');
-  var matches=0;
-  wa.forEach(function(w){ if(wb.indexOf(w)!==-1) matches++; });
-  return matches/Math.max(wa.length,wb.length);
+  var hits=0;
+  wa.forEach(function(w){ if(wb.indexOf(w)!==-1) hits++; });
+  // Also check if most of expected words are in spoken
+  var hits2=0;
+  wb.forEach(function(w){ if(wa.indexOf(w)!==-1) hits2++; });
+  return Math.max(hits/Math.max(wa.length,1), hits2/Math.max(wb.length,1));
 }
-var THRESHOLD=0.55; // 55% word overlap required
+// Threshold: 40% – lenient enough for accent/minor errors
+var THRESH=0.40;
 
 // ── Speech Recognition ─────────────────────────────────────────────────────
-function listenOnce(expectedText, onDone){
+function listenOnce(expected, onDone){
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){
-    showNoMic(expectedText,'Chrome böngésző szükséges a beszédfelismeréshez.');
-    return null;
+    showNoMic(expected,'Chrome böngésző szükséges a beszédfelismeréshez.'); return null;
   }
   var r=new SR();
-  r.lang='de-DE';
+  r.lang=LANGS[lang].code;
   r.continuous=false;
   r.interimResults=true;
   var final='', committed=false;
 
   function commit(){
-    if(committed) return;
-    committed=true;
-    rec=null;
-    onDone(final);
+    if(committed) return; committed=true; rec=null; onDone(final);
   }
-
   r.onresult=function(e){
     var interim='';
     for(var i=e.resultIndex;i<e.results.length;i++){
       var t=e.results[i][0].transcript;
-      if(e.results[i].isFinal) final+=t;
-      else interim=t;
+      if(e.results[i].isFinal) final+=t; else interim=t;
     }
     $('live-txt').textContent=final||interim;
   };
@@ -472,40 +465,33 @@ function listenOnce(expectedText, onDone){
     console.warn('SR:',e.error);
     if(e.error==='not-allowed'||e.error==='service-not-allowed'){
       committed=true; rec=null;
-      showNoMic(expectedText,'Mikrofon hozzáférés megtagadva. Engedélyezd a böngészőben.');
+      showNoMic(expected,'Mikrofon hozzáférés megtagadva. Engedélyezd a böngésző beállításaiban!');
     } else { commit(); }
   };
-  try{ r.start(); } catch(e){
-    showNoMic(expectedText,'Hiba: '+e.message); return null;
-  }
+  try{ r.start(); }catch(e){ showNoMic(expected,'Hiba: '+e.message); return null; }
   return r;
 }
 
 // ── Engine ─────────────────────────────────────────────────────────────────
 function startPractice(){
   var raw=$('raw').value;
-  var parsed=parse(raw);
+  var parsed=parseDlg(raw);
   if(!parsed.length){ alert('Nem sikerült értelmezni! Formátum: A: szöveg'); return; }
 
-  // Unlock audio with user gesture
-  var s=new SpeechSynthesisUtterance(' ');
-  s.volume=0; s.lang='de-DE';
-  window.speechSynthesis.speak(s);
-
   ttsRate=parseFloat($('rate-sl').value);
-  dlg=parsed; idx=0; streak=0; attempts=0; busy=false; rec=null; stalledLine=null;
+  dlg=parsed; idx=0; streak=0; attempts=0; busy=false; rec=null;
   maybeSave(raw,parsed);
   refreshChips();
 
   $('streak').textContent='🔥 0';
   $('pfill').style.width='0%';
   var tags={1:'👁 Szint 1',2:'✏️ Szint 2',3:'🧠 Szint 3'};
-  $('lvl-tag').textContent=tags[lvl];
-  $('done-box').classList.add('hidden');
+  $('lvl-tag').textContent=tags[lvl]+' · '+LANGS[lang].flag+' '+LANGS[lang].name;
+  hide('done-box');
   hideAllCards();
   renderDlg();
   go('practice');
-  setTimeout(runLine,800);
+  setTimeout(runLine,400);
 }
 
 function runLine(){
@@ -516,33 +502,23 @@ function runLine(){
   var line=dlg[idx];
   if(!line){ showDone(); busy=false; return; }
 
-  updateProgress();
+  updateProg();
   renderDlg();
 
   if(line.speaker!==role){
-    // ── Partner's line: TTS ──
-    showCard('c-speak');
+    // ── Partner's line ──
+    currentPartnerLine=line.text;
+    show('c-speak');
     $('partner-txt').textContent=line.text;
-
-    speakText(line.text, ttsRate, function(ok){
-      if(!ok){
-        // TTS failed → show manual play card
-        busy=false;
-        showCard('c-stalled');
-        $('stalled-txt').textContent=line.text;
-        stalledLine=line;
-        setupPlayBtn(line.text);
-      } else {
-        busy=false;
-        idx++;
-        setTimeout(runLine,400);
-      }
-    });
-
+    $('play-btn').classList.remove('playing');
+    $('play-btn').textContent='▶';
+    // Note: we do NOT auto-play. User presses ▶ themselves.
+    // This is the ONLY reliable way on GitHub Pages / mobile.
+    busy=false; // engine waits for partnerDone()
   } else {
     // ── User's line ──
     attempts=0;
-    showCard('c-listen');
+    show('c-listen');
     $('live-txt').textContent='';
     setTimeout(function(){
       rec=listenOnce(line.text, function(spoken){
@@ -552,191 +528,141 @@ function runLine(){
   }
 }
 
-function evaluateAnswer(spoken, expected){
+function partnerDone(){
+  // User clicked "Meghallgattam, tovább"
+  window.speechSynthesis&&window.speechSynthesis.cancel();
+  hideAllCards();
+  idx++;
+  setTimeout(runLine,200);
+}
+
+function evaluateAnswer(spoken,expected){
   busy=false;
-  var sim=similarity(spoken, expected);
-  if(sim>=THRESHOLD){
-    // Correct!
+  var sim=wordSimilarity(spoken,expected);
+  if(sim>=THRESH){
+    // ✅ Correct
     streak++;
     $('streak').textContent='🔥 '+streak;
     attempts=0;
     hideAllCards();
     idx++;
-    setTimeout(runLine,300);
+    setTimeout(runLine,250);
   } else {
+    // ❌ Wrong
     attempts++;
-    showCard('c-wrong');
-    $('correct-line').textContent=expected;
+    show('c-wrong');
+    $('correct-txt').textContent=expected;
     if(spoken.trim()){
       $('you-said').textContent='Te mondtad: „'+spoken+'"';
-      $('you-said').style.display='block';
+      show('you-said');
     } else {
-      $('you-said').style.display='none';
+      hide('you-said');
     }
     if(attempts>=2){
-      $('attempts-txt').textContent='2. próba – a helyes szöveget látod fent. Mondd el, majd próbáld újra!';
+      $('attempt-info').textContent='2. próba – a helyes szöveget látod fent. Olvasd el, majd próbáld újra!';
     } else {
-      $('attempts-txt').textContent='Próbálkozás: '+attempts+'/2 – próbáld meg még egyszer!';
+      $('attempt-info').textContent='Próbáld meg még egyszer! ('+attempts+'. kísérlet)';
     }
   }
 }
 
-function retryLine(){
+function retryListen(){
   hideAllCards();
-  showCard('c-listen');
+  show('c-listen');
   $('live-txt').textContent='';
   var expected=dlg[idx].text;
   busy=true;
   setTimeout(function(){
-    rec=listenOnce(expected, function(spoken){
-      evaluateAnswer(spoken, expected);
-    });
+    rec=listenOnce(expected,function(spoken){ evaluateAnswer(spoken,expected); });
   },300);
 }
 
 function forceNext(){
-  hideAllCards();
-  busy=false;
-  idx++;
-  setTimeout(runLine,200);
+  hideAllCards(); busy=false; idx++; setTimeout(runLine,200);
 }
 
-function stalledNext(){
+function showNoMic(expected,reason){
   hideAllCards();
-  busy=false;
-  idx++;
-  setTimeout(runLine,300);
-}
-
-function setupPlayBtn(text){
-  var btn=$('play-btn');
-  btn.onclick=function(){
-    speakText(text, ttsRate, function(){});
-  };
-}
-
-function showNoMic(expectedText, reason){
-  hideAllCards();
-  showCard('c-nomic');
+  show('c-nomic');
   $('nomic-reason').textContent=reason;
-  $('nomic-line').textContent=expectedText;
+  $('nomic-line').textContent=expected;
 }
-
 function micManualNext(){
-  hideAllCards();
-  streak++;
-  $('streak').textContent='🔥 '+streak;
-  busy=false;
-  idx++;
-  setTimeout(runLine,200);
+  hideAllCards(); streak++; $('streak').textContent='🔥 '+streak;
+  busy=false; idx++; setTimeout(runLine,200);
 }
 
 function skipLine(){
   window.speechSynthesis&&window.speechSynthesis.cancel();
-  if(rec){ try{rec.abort();}catch(e){} rec=null; }
-  busy=false;
-  hideAllCards();
-  idx++;
-  setTimeout(runLine,200);
+  if(rec){try{rec.abort();}catch(e){} rec=null;}
+  busy=false; hideAllCards(); idx++; setTimeout(runLine,200);
 }
 
 function restartPractice(){
-  stopAll();
-  idx=0; streak=0; attempts=0;
-  $('streak').textContent='🔥 0';
-  $('done-box').classList.add('hidden');
-  $('pfill').style.width='0%';
-  hideAllCards();
-  renderDlg();
-  setTimeout(runLine,500);
+  stopAll(); idx=0; streak=0; attempts=0;
+  $('streak').textContent='🔥 0'; $('pfill').style.width='0%';
+  hide('done-box'); hideAllCards(); renderDlg();
+  setTimeout(runLine,400);
 }
 
 function nextLevel(){
-  lvl=Math.min(lvl+1,3);
-  setLevel(lvl);
+  lvl=Math.min(lvl+1,3); setLevel(lvl);
   var tags={1:'👁 Szint 1',2:'✏️ Szint 2',3:'🧠 Szint 3'};
-  $('lvl-tag').textContent=tags[lvl];
-  $('done-box').classList.add('hidden');
-  restartPractice();
-}
-
-function replayPartner(){
-  for(var i=idx-1;i>=0;i--){
-    if(dlg[i].speaker!==role){
-      speakText(dlg[i].text,ttsRate,function(){});
-      break;
-    }
-  }
+  $('lvl-tag').textContent=tags[lvl]+' · '+LANGS[lang].flag+' '+LANGS[lang].name;
+  hide('done-box'); restartPractice();
 }
 
 function stopAll(){
   window.speechSynthesis&&window.speechSynthesis.cancel();
-  if(rec){ try{rec.abort();}catch(e){} rec=null; }
-  busy=false;
-  hideAllCards();
+  if(rec){try{rec.abort();}catch(e){} rec=null;}
+  busy=false; hideAllCards();
 }
 
-// ── UI helpers ─────────────────────────────────────────────────────────────
-var CARDS=['c-speak','c-stalled','c-listen','c-wrong','c-nomic'];
-function hideAllCards(){ CARDS.forEach(function(c){ $(c).classList.add('hidden'); }); }
-function showCard(id){ $(id).classList.remove('hidden'); }
+// ── UI ─────────────────────────────────────────────────────────────────────
+var CARDS=['c-speak','c-listen','c-wrong','c-nomic'];
+function hideAllCards(){ CARDS.forEach(function(c){ hide(c); }); }
 
-function updateProgress(){
-  var pct=dlg.length?(idx/dlg.length)*100:0;
-  $('pfill').style.width=pct+'%';
+function updateProg(){
+  $('pfill').style.width=(dlg.length?(idx/dlg.length)*100:0)+'%';
 }
 
 function renderDlg(){
   var box=$('dlg'); box.innerHTML='';
-  var mwords=null;
-  if(dlg[idx]&&dlg[idx].speaker===role&&lvl===2) mwords=maskWords(dlg[idx].text);
+  var mw=null;
+  if(dlg[idx]&&dlg[idx].speaker===role&&lvl===2) mw=maskWords(dlg[idx].text);
 
   dlg.forEach(function(line,i){
-    var isUser=line.speaker===role;
-    var isCur=i===idx, isPast=i<idx, isFuture=i>idx;
+    var isU=line.speaker===role;
+    var isCur=i===idx,isPast=i<idx,isFut=i>idx;
 
     var wrap=document.createElement('div');
-    wrap.className='lw'
-      +(isUser?' user-line':'')
-      +(isCur?' current':isPast?' past':isFuture?' future':'');
+    wrap.className='lw'+(isU?' ur':'')+(isCur?' cur':isPast?' past':' future');
 
-    if(!isUser){
-      var d=document.createElement('div');
-      d.className='dot'; d.textContent=line.speaker;
-      wrap.appendChild(d);
-    }
+    if(!isU){var d=document.createElement('div');d.className='dot';d.textContent=line.speaker;wrap.appendChild(d);}
 
     var bub=document.createElement('div');
-    bub.className='bub '+(isUser?'u':'p');
-    if(isCur&&isUser&&lvl===1) bub.classList.add('dim');
+    bub.className='bub '+(isU?'u':'p');
+    if(isCur&&isU&&lvl===1) bub.classList.add('dim');
 
-    if(isCur&&isUser&&lvl===2&&mwords){
-      mwords.forEach(function(w){
+    if(isCur&&isU&&lvl===2&&mw){
+      mw.forEach(function(w){
         if(w.masked){
           var sp=document.createElement('span');
-          sp.className='masked';
-          sp.textContent='_'.repeat(Math.max(w.word.replace(/[^a-zA-ZäöüÄÖÜß]/g,'').length,3));
+          sp.className='msk';
+          sp.textContent='_'.repeat(Math.max(w.word.replace(/[^a-zA-ZäöüÄÖÜßáéíóúñ]/g,'').length,3));
           bub.appendChild(sp);
         } else { bub.appendChild(document.createTextNode(w.word)); }
         bub.appendChild(document.createTextNode(' '));
       });
-    } else if(isCur&&isUser&&lvl===3){
-      var em=document.createElement('em');
-      em.style.opacity='.35'; em.textContent='Emlékezetből…';
-      bub.appendChild(em);
+    } else if(isCur&&isU&&lvl===3){
+      var em=document.createElement('em');em.style.opacity='.35';em.textContent='Emlékezetből…';bub.appendChild(em);
     } else { bub.textContent=line.text; }
 
     wrap.appendChild(bub);
-
-    if(isUser){
-      var ud=document.createElement('div');
-      ud.className='dot u'; ud.textContent=line.speaker;
-      wrap.appendChild(ud);
-    }
+    if(isU){var ud=document.createElement('div');ud.className='dot u';ud.textContent=line.speaker;wrap.appendChild(ud);}
     box.appendChild(wrap);
   });
-
-  var cur=box.querySelector('.current');
+  var cur=box.querySelector('.cur');
   if(cur) cur.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
@@ -745,7 +671,7 @@ function showDone(){
   $('pfill').style.width='100%';
   $('done-info').textContent='Streak: 🔥 '+streak+' · Szint: '+lvl+'/3';
   $('next-lvl-btn').style.display=lvl<3?'block':'none';
-  $('done-box').classList.remove('hidden');
+  show('done-box');
 }
 </script>
 </body>
