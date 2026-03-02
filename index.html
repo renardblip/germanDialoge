@@ -45,7 +45,20 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 .lang-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
 .lang-card{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 8px;border-radius:10px;border:1px solid var(--border);background:var(--card);cursor:pointer;font-family:inherit;color:var(--fg);transition:background .15s;}
 .lang-card:hover,.lang-card.on{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.35);}
-.lang-card .flag{font-size:28px;}.lang-card .lname{font-size:12px;font-weight:600;}
+.lang-card .flag{font-size:26px;}.lang-card .lname{font-size:12px;font-weight:600;}
+
+/* Voice selector */
+.voice-panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;}
+.voice-row{display:flex;align-items:center;gap:8px;}
+select{flex:1;background:#1a1a26;border:1px solid var(--border);border-radius:8px;color:var(--fg);font-family:inherit;font-size:13px;padding:7px 10px;outline:none;cursor:pointer;}
+select:focus{border-color:rgba(74,222,128,.5);}
+select option{background:#1a1a26;color:var(--fg);}
+.test-btn{background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.4);color:var(--fg);border-radius:8px;padding:7px 14px;cursor:pointer;font-family:inherit;font-size:13px;white-space:nowrap;}
+.test-btn:hover{background:rgba(96,165,250,.28);}
+.test-btn:active{transform:scale(.97);}
+.voice-note{font-size:11px;opacity:.45;line-height:1.5;}
+.voice-note.good{color:var(--green);opacity:.8;}
+.voice-note.warn{color:var(--yellow);opacity:.9;}
 
 .saved-item{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;}
 .saved-item:hover{background:rgba(255,255,255,.07);}
@@ -72,33 +85,26 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
 .bub.dim{opacity:.38;}
 .msk{background:rgba(250,204,21,.2);border-radius:3px;padding:1px 3px;color:var(--yellow);font-family:'JetBrains Mono',monospace;letter-spacing:2px;}
 
-/* Cards */
 .scard{display:flex;flex-direction:column;align-items:center;gap:10px;border:1px solid var(--border);border-radius:13px;padding:16px 14px;}
 .scard.speak{background:rgba(96,165,250,.05);border-color:rgba(96,165,250,.25);}
 .scard.listen{background:rgba(74,222,128,.05);border-color:rgba(74,222,128,.3);}
 .scard.wrong{background:rgba(248,113,113,.06);border-color:rgba(248,113,113,.3);}
 .scard.warn{background:rgba(250,204,21,.05);border-color:rgba(250,204,21,.3);}
 
-/* BIG play button */
 .play-big{width:80px;height:80px;border-radius:50%;background:rgba(96,165,250,.15);border:2px solid rgba(96,165,250,.5);font-size:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,transform .1s;color:var(--fg);}
 .play-big:hover{background:rgba(96,165,250,.28);transform:scale(1.06);}
 .play-big:active{transform:scale(.97);}
-.play-big.playing{background:rgba(96,165,250,.28);animation:glow 1s ease-in-out infinite;}
+.play-big.playing{background:rgba(96,165,250,.25);animation:glow 1s ease-in-out infinite;}
 @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(96,165,250,.5)}50%{box-shadow:0 0 0 14px rgba(96,165,250,0)}}
-
-/* Voice status */
-.voice-status{font-size:11px;text-align:center;opacity:.5;padding:0 8px;}
-.voice-status.ok{color:var(--green);opacity:.8;}
-.voice-status.err{color:var(--yellow);opacity:.9;}
+.play-status{font-size:11px;text-align:center;opacity:.5;}
+.play-status.ok{color:var(--green);opacity:.8;}
 
 .partner-display{font-size:15px;text-align:center;line-height:1.65;padding:2px 6px;font-weight:600;}
 
-/* Mic */
 .mic-ring{width:64px;height:64px;border-radius:50%;background:rgba(74,222,128,.1);border:2px solid rgba(74,222,128,.4);display:flex;align-items:center;justify-content:center;font-size:26px;animation:pulse 1.3s ease-in-out infinite;}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{box-shadow:0 0 0 14px rgba(74,222,128,0)}}
 .live-txt{background:rgba(255,255,255,.06);border-radius:8px;padding:6px 12px;font-size:13px;font-style:italic;text-align:center;min-height:30px;width:100%;opacity:.85;}
 
-/* Answer reveal */
 .correct-box{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);border-radius:8px;padding:8px 12px;font-size:14px;color:#c8f7d8;text-align:center;width:100%;line-height:1.6;}
 .you-said-box{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);border-radius:8px;padding:6px 12px;font-size:12px;color:#fca5a5;text-align:center;width:100%;}
 
@@ -140,11 +146,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
     <button class="lang-card" id="lang-es" onclick="setLang('es')"><span class="flag">🇪🇸</span><span class="lname">Spanyol</span></button>
   </div>
 
-  <!-- Voice test area -->
-  <div style="display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;">
-    <span style="font-size:13px;opacity:.6;flex:1">Hang teszt:</span>
-    <span id="voice-info" style="font-size:12px;opacity:.5;flex:2;text-align:center">—</span>
-    <button onclick="testVoice()" style="background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.4);color:var(--fg);border-radius:8px;padding:6px 14px;cursor:pointer;font-family:inherit;font-size:13px;">▶ Teszt</button>
+  <!-- Voice picker -->
+  <label class="lbl">🔊 Hang kiválasztása</label>
+  <div class="voice-panel">
+    <div class="voice-row">
+      <select id="voice-select" onchange="onVoiceChange()">
+        <option value="">— Hangok betöltése… —</option>
+      </select>
+      <button class="test-btn" onclick="testVoice()">▶ Teszt</button>
+    </div>
+    <div class="voice-note" id="voice-note">A böngésző elérhető hangjait mutatja. Chrome-ban több hang érhető el.</div>
   </div>
 
   <label class="lbl">Párbeszéd szövege</label>
@@ -176,16 +187,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
   <div class="lvl-tag" id="lvl-tag"></div>
   <div class="dlg" id="dlg"></div>
 
-  <!-- PARTNER card -->
+  <!-- Partner card -->
   <div class="scard speak hidden" id="c-speak">
     <div style="font-size:11px;opacity:.5;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--blue)">Partner sora</div>
     <div class="partner-display" id="partner-txt"></div>
     <button class="play-big" id="play-btn" onclick="doPlayTTS()">▶</button>
-    <div id="play-status" class="voice-status">Kattints a ▶ gombra a felolvasáshoz</div>
+    <div class="play-status" id="play-status">Kattints a ▶ gombra a felolvasáshoz</div>
     <button class="btn" style="margin-top:4px" onclick="partnerDone()">✓ Meghallgattam, tovább →</button>
   </div>
 
-  <!-- USER listening card -->
+  <!-- Listen card -->
   <div class="scard listen hidden" id="c-listen">
     <div class="mic-ring">🎙</div>
     <div style="text-align:center">
@@ -195,21 +206,21 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
     <div class="live-txt" id="live-txt"></div>
   </div>
 
-  <!-- WRONG answer card -->
+  <!-- Wrong card -->
   <div class="scard wrong hidden" id="c-wrong">
-    <div style="font-weight:700;color:var(--red);font-size:14px">❌ Nem egészen…</div>
-    <!-- answer only shown after 2 wrong attempts -->
-    <div id="answer-reveal" class="hidden" style="display:flex;flex-direction:column;align-items:center;gap:8px;width:100%">
+    <div style="font-weight:700;color:var(--red);font-size:14px" id="wrong-title">❌ Nem egészen…</div>
+    <div class="you-said-box hidden" id="you-said"></div>
+    <div style="font-size:12px;opacity:.5;text-align:center" id="attempt-info"></div>
+    <!-- Answer shown only after 2nd wrong attempt -->
+    <div id="answer-reveal" class="hidden" style="width:100%;display:flex;flex-direction:column;align-items:center;gap:6px">
       <div style="font-size:12px;opacity:.55">Helyes mondat:</div>
       <div class="correct-box" id="correct-txt"></div>
     </div>
-    <div class="you-said-box hidden" id="you-said"></div>
-    <div style="font-size:12px;opacity:.5;text-align:center" id="attempt-info"></div>
     <button class="btn" onclick="retryListen()">🔄 Próbáld újra</button>
     <button class="ghost" style="font-size:12px" onclick="forceNext()">Kihagyom →</button>
   </div>
 
-  <!-- NO MIC card -->
+  <!-- No mic card -->
   <div class="scard warn hidden" id="c-nomic">
     <div style="font-weight:700;color:var(--yellow);font-size:13px">🎤 Mikrofon nem elérhető</div>
     <div style="font-size:12px;opacity:.6;text-align:center" id="nomic-reason"></div>
@@ -225,8 +236,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
   </div>
 
   <div class="done-box hidden" id="done-box">
-    <div class="emo">🎉</div>
-    <h3>Vége!</h3>
+    <div class="emo">🎉</div><h3>Vége!</h3>
     <p id="done-info"></p>
     <button class="btn yellow" id="next-lvl-btn" onclick="nextLevel()" style="display:none">⬆ Következő szint</button>
     <button class="btn" onclick="restartPractice()">🔄 Újra ugyanígy</button>
@@ -234,7 +244,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;heigh
   </div>
 </div>
 
-</div>
+</div><!-- #app -->
 <script>
 // ─── Helpers ───────────────────────────────────────────────────────────────
 function $(id){ return document.getElementById(id); }
@@ -242,122 +252,153 @@ function show(id){ $(id).classList.remove('hidden'); }
 function hide(id){ $(id).classList.add('hidden'); }
 
 // ─── Languages ─────────────────────────────────────────────────────────────
-var LANGS = {
-  de:{ code:'de-DE', flag:'🇩🇪', name:'Német',
+var LANGS={
+  de:{code:'de-DE',flag:'🇩🇪',name:'Német',
     sample:'A: Guten Morgen! Wie geht es dir?\nB: Mir geht es gut, danke. Und dir?\nA: Auch gut. Was machst du heute?\nB: Ich gehe zur Arbeit. Und du?\nA: Ich lerne Deutsch. Es macht Spaß!\nB: Das ist wunderbar! Viel Erfolg!',
-    test:'Hallo! Ich bin dein Sprachtrainer.' },
-  en:{ code:'en-GB', flag:'🇬🇧', name:'Angol',
+    test:'Hallo! Ich bin dein Sprachtrainer. Wie geht es dir heute?'},
+  en:{code:'en-GB',flag:'🇬🇧',name:'Angol',
     sample:'A: Good morning! How are you?\nB: I\'m fine, thank you. And you?\nA: Very well. What are you doing today?\nB: I\'m going to work. And you?\nA: I\'m learning English. It\'s fun!\nB: That\'s wonderful! Good luck!',
-    test:'Hello! I am your language trainer.' },
-  es:{ code:'es-ES', flag:'🇪🇸', name:'Spanyol',
+    test:'Hello! I am your language trainer. How are you today?'},
+  es:{code:'es-ES',flag:'🇪🇸',name:'Spanyol',
     sample:'A: ¡Buenos días! ¿Cómo estás?\nB: Estoy bien, gracias. ¿Y tú?\nA: Muy bien. ¿Qué haces hoy?\nB: Voy al trabajo. ¿Y tú?\nA: Estoy aprendiendo español. ¡Es divertido!\nB: ¡Qué maravilloso! ¡Buena suerte!',
-    test:'¡Hola! Soy tu entrenador de idiomas.' }
+    test:'¡Hola! Soy tu entrenador de idiomas. ¿Cómo estás hoy?'}
 };
-var lang = 'de';
+var lang='de';
+var selectedVoice=null; // null = let browser choose
+
+// ─── Voice management ──────────────────────────────────────────────────────
+var allVoices=[];
+
+function loadVoiceList(){
+  if(!window.speechSynthesis) return;
+  allVoices=window.speechSynthesis.getVoices();
+  populateVoiceSelect();
+}
+
+// Fires once voices are ready; also try immediately
+if(window.speechSynthesis){
+  loadVoiceList();
+  window.speechSynthesis.onvoiceschanged=function(){ loadVoiceList(); };
+}
+
+function getVoicesForLang(langCode){
+  var prefix=langCode.split('-')[0].toLowerCase();
+  return allVoices.filter(function(v){
+    return v.lang.toLowerCase().startsWith(prefix);
+  });
+}
+
+function populateVoiceSelect(){
+  var sel=$('voice-select');
+  if(!sel) return;
+  var langCode=LANGS[lang].code;
+  var voices=getVoicesForLang(langCode);
+  sel.innerHTML='';
+
+  // "auto" option first
+  var auto=document.createElement('option');
+  auto.value='__auto__';
+  auto.textContent='🔄 Automatikus (böngésző alapértelmezett)';
+  sel.appendChild(auto);
+
+  voices.forEach(function(v,i){
+    var opt=document.createElement('option');
+    opt.value=i;
+    // Flag natural / network voices – they sound better
+    var tag=v.localService?'':'★ ';
+    opt.textContent=tag+v.name+' ('+v.lang+')';
+    sel.appendChild(opt);
+  });
+
+  // Try to pre-select best voice: prefer non-local (network) voices, then local
+  var best=voices.findIndex(function(v){ return !v.localService; });
+  if(best===-1) best=0;
+  if(voices.length>0){
+    sel.selectedIndex=best+1; // +1 for "auto" option
+    onVoiceChange();
+    var note=$('voice-note');
+    if(note){ note.textContent='✓ '+voices.length+' hang elérhető. ★ = jobb minőségű online hang.'; note.className='voice-note good'; }
+  } else {
+    sel.selectedIndex=0; selectedVoice=null;
+    var note=$('voice-note');
+    if(note){ note.textContent='⚠ Nem találtam '+LANGS[lang].name+' hangot. Az alapértelmezett hang lesz használva.'; note.className='voice-note warn'; }
+  }
+}
+
+function onVoiceChange(){
+  var sel=$('voice-select');
+  if(!sel) return;
+  var val=sel.value;
+  if(val==='__auto__'||val===''){
+    selectedVoice=null;
+  } else {
+    var langCode=LANGS[lang].code;
+    var voices=getVoicesForLang(langCode);
+    selectedVoice=voices[parseInt(val)]||null;
+  }
+}
 
 function setLang(l){
   lang=l;
   ['de','en','es'].forEach(function(x){ $('lang-'+x).classList.toggle('on',x===l); });
   $('raw').value=LANGS[l].sample;
   refreshChips();
-  updateVoiceInfo();
+  selectedVoice=null;
+  populateVoiceSelect();
 }
 
-// ─── Voice management ──────────────────────────────────────────────────────
-// The ONLY reliable pattern for Chrome:
-// 1. Call getVoices() immediately – may return [] on first call
-// 2. Listen for voiceschanged
-// 3. When speaking, set lang on utterance but DON'T require a specific voice object
-//    (Chrome will use system default for that lang)
-
-var voiceList = [];
-
-function loadVoices(){
-  voiceList = window.speechSynthesis.getVoices();
-}
-// Load immediately AND on change
-loadVoices();
-if(window.speechSynthesis) window.speechSynthesis.onvoiceschanged = function(){
-  loadVoices();
-  updateVoiceInfo();
-};
-
-function getBestVoice(langCode){
-  loadVoices(); // always fresh
-  var exact = voiceList.find(function(v){ return v.lang===langCode; });
-  if(exact) return exact;
-  var prefix = langCode.split('-')[0];
-  return voiceList.find(function(v){ return v.lang.startsWith(prefix); }) || null;
+function testVoice(){
+  // Called from click → browser allows audio
+  speakNow(LANGS[lang].test, parseFloat($('rate-sl').value), function(){});
 }
 
-function updateVoiceInfo(){
-  var v = getBestVoice(LANGS[lang].code);
-  var el = $('voice-info');
-  if(!el) return;
-  if(v){ el.textContent='✓ '+v.name; el.style.color='var(--green)'; el.style.opacity='.8'; }
-  else { el.textContent='Hang nem találva – az alapértelmezett hang lesz használva'; el.style.color='var(--yellow)'; el.style.opacity='.9'; }
-}
-
-// Core speak function – MUST be called from a click handler for autoplay policy
-function speakNow(text, rate, langCode, onEnd){
-  var synth = window.speechSynthesis;
+// ─── Core speak ────────────────────────────────────────────────────────────
+// Must be called from a click handler (or chained from one).
+function speakNow(text, rate, onEnd){
+  var synth=window.speechSynthesis;
+  if(!synth){ if(onEnd) onEnd(); return; }
   synth.cancel();
 
-  var u = new SpeechSynthesisUtterance(text);
-  u.lang   = langCode;  // Always set lang – Chrome uses this even without voice object
-  u.rate   = rate || 0.85;
-  u.pitch  = 1;
-  u.volume = 1;
+  var u=new SpeechSynthesisUtterance(text);
+  u.lang=LANGS[lang].code;
+  u.rate=rate||0.85;
+  u.pitch=1;
+  u.volume=1;
 
-  // Try to set a specific voice – but don't fail if none found
-  var v = getBestVoice(langCode);
-  if(v) u.voice = v;
+  // Use selected voice; if null, browser uses its default for u.lang
+  if(selectedVoice) u.voice=selectedVoice;
 
-  var done = false;
+  var done=false;
   function finish(){ if(!done){ done=true; if(onEnd) onEnd(); } }
+  u.onend=finish;
+  u.onerror=function(e){ console.warn('TTS:',e.error); finish(); };
 
-  u.onend   = finish;
-  u.onerror = function(e){ console.warn('TTS err:',e.error); finish(); };
-
-  // Chrome sometimes silently fails – safety net based on text length
-  var ms = Math.max(3000, (text.length/u.rate)*90);
-  setTimeout(finish, ms);
+  // Safety net: advance after estimated duration
+  var ms=Math.max(3000,(text.length/u.rate)*95);
+  setTimeout(finish,ms);
 
   synth.speak(u);
 }
 
-// Test voice from setup
-function testVoice(){
-  var cfg = LANGS[lang];
-  $('voice-info').textContent='▶ Lejátszás…';
-  speakNow(cfg.test, 0.85, cfg.code, function(){
-    updateVoiceInfo();
-  });
-}
-
 // ─── State ─────────────────────────────────────────────────────────────────
-var dlg=[], role='A', lvl=1, idx=0, streak=0, attempts=0;
-var busy=false, rec=null, ttsRate=0.85;
-var saved=[], currentPartnerText='';
+var dlg=[],role='A',lvl=1,idx=0,streak=0,attempts=0;
+var busy=false,rec=null,ttsRate=0.85;
+var saved=[],currentPartnerText='';
 
 // ─── Init ───────────────────────────────────────────────────────────────────
 window.onload=function(){
   $('raw').value=LANGS['de'].sample;
-  loadSaved();
-  refreshChips();
-  updateVoiceInfo();
+  loadSaved(); refreshChips();
 };
 
 // ─── Navigation ────────────────────────────────────────────────────────────
 function go(s){
-  ['home','setup','practice'].forEach(function(n){
-    $('s-'+n).classList.toggle('hidden',n!==s);
-  });
+  ['home','setup','practice'].forEach(function(n){ $('s-'+n).classList.toggle('hidden',n!==s); });
 }
 
 // ─── Saved ─────────────────────────────────────────────────────────────────
 function loadSaved(){
-  try{ saved=JSON.parse(localStorage.getItem('dlg_v3')||'[]'); }catch(e){ saved=[]; }
+  try{ saved=JSON.parse(localStorage.getItem('dlg_v4')||'[]'); }catch(e){ saved=[]; }
   var btn=$('saved-btn');
   if(saved.length){ btn.style.display='block'; btn.textContent='📂 Mentett párbeszédek ('+saved.length+')'; }
   else btn.style.display='none';
@@ -377,14 +418,14 @@ function toggleSaved(){
 function maybeSave(raw,parsed){
   if(!saved.find(function(x){return x.raw===raw;})){
     saved=[{raw:raw,lang:lang,flag:LANGS[lang].flag,title:parsed[0].text.slice(0,36)+'…',date:new Date().toLocaleDateString('hu')}].concat(saved).slice(0,12);
-    localStorage.setItem('dlg_v3',JSON.stringify(saved));
+    localStorage.setItem('dlg_v4',JSON.stringify(saved));
     loadSaved();
   }
 }
 
 // ─── Setup ─────────────────────────────────────────────────────────────────
 function getSpeakers(){
-  var raw=$('raw').value, found=[];
+  var raw=$('raw').value,found=[];
   raw.split('\n').forEach(function(l){
     var m=l.trim().match(/^([A-Z]):/);
     if(m&&found.indexOf(m[1])===-1) found.push(m[1]);
@@ -422,21 +463,14 @@ function maskWords(text){
   });
 }
 
-// ─── TTS play (called from click → always allowed) ─────────────────────────
+// ─── TTS play button (called from click) ──────────────────────────────────
 function doPlayTTS(){
-  var btn=$('play-btn');
-  var status=$('play-status');
-  btn.classList.add('playing');
-  btn.textContent='⏸';
-  status.textContent='Lejátszás…';
-  status.style.color='var(--blue)';
-  status.style.opacity='1';
-
-  speakNow(currentPartnerText, ttsRate, LANGS[lang].code, function(){
-    btn.classList.remove('playing');
-    btn.textContent='▶';
-    status.textContent='✓ Lejátszva – kattints újra vagy lépj tovább';
-    status.style.color='var(--green)';
+  var btn=$('play-btn'),st=$('play-status');
+  btn.classList.add('playing'); btn.textContent='⏸';
+  st.textContent='Lejátszás…'; st.className='play-status';
+  speakNow(currentPartnerText, ttsRate, function(){
+    btn.classList.remove('playing'); btn.textContent='▶';
+    st.textContent='✓ Lejátszva'; st.className='play-status ok';
   });
 }
 
@@ -447,27 +481,21 @@ function normalize(s){
     .replace(/á/g,'a').replace(/é/g,'e').replace(/í/g,'i').replace(/ó/g,'o').replace(/ú/g,'u').replace(/ñ/g,'n')
     .replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();
 }
-function wordSim(spoken, expected){
-  var a=normalize(spoken), b=normalize(expected);
-  if(!a) return 0;
-  if(a===b) return 1;
-  var wa=a.split(' '), wb=b.split(' ');
-  // Check what fraction of expected words appear in spoken
-  var hits=0;
-  wb.forEach(function(w){ if(wa.indexOf(w)!==-1) hits++; });
+function wordSim(spoken,expected){
+  var a=normalize(spoken),b=normalize(expected);
+  if(!a) return 0; if(a===b) return 1;
+  var wa=a.split(' '),wb=b.split(' ');
+  var hits=0; wb.forEach(function(w){ if(wa.indexOf(w)!==-1) hits++; });
   return hits/Math.max(wb.length,1);
 }
-var THRESH = 0.45; // 45% of expected words must be present
+var THRESH=0.45;
 
 // ─── Speech Recognition ────────────────────────────────────────────────────
-function listenOnce(expected, onDone){
+function listenOnce(expected,onDone){
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){ showNoMic(expected,'Chrome böngésző szükséges a beszédfelismeréshez.'); return null; }
-  var r=new SR();
-  r.lang=LANGS[lang].code;
-  r.continuous=false;
-  r.interimResults=true;
-  var final='', committed=false;
+  var r=new SR(); r.lang=LANGS[lang].code; r.continuous=false; r.interimResults=true;
+  var final='',committed=false;
   function commit(){ if(committed) return; committed=true; rec=null; onDone(final); }
   r.onresult=function(e){
     var interim='';
@@ -496,42 +524,32 @@ function startPractice(){
   if(!parsed.length){ alert('Nem sikerült értelmezni! Formátum: A: szöveg'); return; }
   ttsRate=parseFloat($('rate-sl').value);
   dlg=parsed; idx=0; streak=0; attempts=0; busy=false; rec=null;
-  maybeSave(raw,parsed);
-  refreshChips();
-  $('streak').textContent='🔥 0';
-  $('pfill').style.width='0%';
+  maybeSave(raw,parsed); refreshChips();
+  $('streak').textContent='🔥 0'; $('pfill').style.width='0%';
   var tags={1:'👁 Szint 1',2:'✏️ Szint 2',3:'🧠 Szint 3'};
   $('lvl-tag').textContent=tags[lvl]+' · '+LANGS[lang].flag+' '+LANGS[lang].name;
-  hide('done-box'); hideAllCards();
-  renderDlg();
-  go('practice');
+  hide('done-box'); hideAllCards(); renderDlg(); go('practice');
   setTimeout(runLine,400);
 }
 
 function runLine(){
-  if(busy) return;
-  busy=true;
+  if(busy) return; busy=true;
   hideAllCards();
   var line=dlg[idx];
   if(!line){ showDone(); busy=false; return; }
   updateProg(); renderDlg();
 
   if(line.speaker!==role){
-    // Partner's line – show card, wait for user to press ▶
     currentPartnerText=line.text;
     $('partner-txt').textContent=line.text;
-    $('play-btn').classList.remove('playing');
-    $('play-btn').textContent='▶';
+    $('play-btn').classList.remove('playing'); $('play-btn').textContent='▶';
     $('play-status').textContent='Kattints a ▶ gombra a felolvasáshoz';
-    $('play-status').style.color='';
-    $('play-status').style.opacity='.5';
+    $('play-status').className='play-status';
     show('c-speak');
-    busy=false; // waits for partnerDone()
+    busy=false;
   } else {
-    // User's line – start listening
     attempts=0;
-    show('c-listen');
-    $('live-txt').textContent='';
+    show('c-listen'); $('live-txt').textContent='';
     setTimeout(function(){
       rec=listenOnce(line.text,function(spoken){ evaluateAnswer(spoken,line.text); });
     },350);
@@ -543,41 +561,28 @@ function partnerDone(){
   hideAllCards(); idx++; setTimeout(runLine,200);
 }
 
-function evaluateAnswer(spoken, expected){
+function evaluateAnswer(spoken,expected){
   busy=false;
   var sim=wordSim(spoken,expected);
-
   if(sim>=THRESH){
-    // ✅ Correct
     streak++; $('streak').textContent='🔥 '+streak;
     attempts=0; hideAllCards(); idx++; setTimeout(runLine,250);
   } else {
-    // ❌ Wrong
     attempts++;
     show('c-wrong');
-
-    // Only show correct answer after 2nd wrong attempt
+    // Answer only revealed after 2nd wrong attempt
     if(attempts>=2){
       $('correct-txt').textContent=expected;
-      // Show answer-reveal (it's a flex div)
-      $('answer-reveal').style.display='flex';
-      $('answer-reveal').style.flexDirection='column';
-      $('answer-reveal').style.alignItems='center';
-      $('answer-reveal').style.gap='8px';
-      $('answer-reveal').style.width='100%';
-      $('answer-reveal').classList.remove('hidden');
-      $('attempt-info').textContent='2. próba – olvasd el a helyes mondatot, majd próbáld újra!';
+      show('answer-reveal');
+      $('wrong-title').textContent='❌ Megint nem stimmel…';
+      $('attempt-info').textContent='Olvasd el a helyes mondatot fent, majd próbáld újra!';
     } else {
       hide('answer-reveal');
-      $('attempt-info').textContent='Nem egészen jó… próbáld meg még egyszer! (1. kísérlet)';
+      $('wrong-title').textContent='❌ Nem egészen…';
+      $('attempt-info').textContent='Próbáld meg még egyszer! (1. kísérlet)';
     }
-
-    if(spoken.trim()){
-      $('you-said').textContent='Te mondtad: „'+spoken+'"';
-      show('you-said');
-    } else {
-      hide('you-said');
-    }
+    if(spoken.trim()){ $('you-said').textContent='Te mondtad: „'+spoken+'"'; show('you-said'); }
+    else { hide('you-said'); }
   }
 }
 
@@ -622,10 +627,7 @@ function nextLevel(){
 
 function replayPartner(){
   for(var i=idx-1;i>=0;i--){
-    if(dlg[i].speaker!==role){
-      speakNow(dlg[i].text,ttsRate,LANGS[lang].code,function(){});
-      break;
-    }
+    if(dlg[i].speaker!==role){ speakNow(dlg[i].text,ttsRate,function(){}); break; }
   }
 }
 
@@ -635,44 +637,33 @@ function stopAll(){
   busy=false; hideAllCards();
 }
 
-// ─── UI ────────────────────────────────────────────────────────────────────
 var CARDS=['c-speak','c-listen','c-wrong','c-nomic'];
 function hideAllCards(){ CARDS.forEach(function(c){ hide(c); }); }
-
 function updateProg(){ $('pfill').style.width=(dlg.length?(idx/dlg.length)*100:0)+'%'; }
 
 function renderDlg(){
   var box=$('dlg'); box.innerHTML='';
   var mw=null;
   if(dlg[idx]&&dlg[idx].speaker===role&&lvl===2) mw=maskWords(dlg[idx].text);
-
   dlg.forEach(function(line,i){
-    var isU=line.speaker===role;
-    var isCur=i===idx, isPast=i<idx, isFut=i>idx;
+    var isU=line.speaker===role,isCur=i===idx,isPast=i<idx;
     var wrap=document.createElement('div');
     wrap.className='lw'+(isU?' ur':'')+(isCur?' cur':isPast?' past':' future');
-
-    if(!isU){ var d=document.createElement('div'); d.className='dot'; d.textContent=line.speaker; wrap.appendChild(d); }
-
+    if(!isU){var d=document.createElement('div');d.className='dot';d.textContent=line.speaker;wrap.appendChild(d);}
     var bub=document.createElement('div');
     bub.className='bub '+(isU?'u':'p');
     if(isCur&&isU&&lvl===1) bub.classList.add('dim');
-
     if(isCur&&isU&&lvl===2&&mw){
       mw.forEach(function(w){
-        if(w.masked){
-          var sp=document.createElement('span'); sp.className='msk';
-          sp.textContent='_'.repeat(Math.max(w.word.replace(/[^a-zA-ZäöüÄÖÜßáéíóúñ]/g,'').length,3));
-          bub.appendChild(sp);
-        } else { bub.appendChild(document.createTextNode(w.word)); }
+        if(w.masked){var sp=document.createElement('span');sp.className='msk';sp.textContent='_'.repeat(Math.max(w.word.replace(/[^a-zA-ZäöüÄÖÜßáéíóúñ]/g,'').length,3));bub.appendChild(sp);}
+        else{bub.appendChild(document.createTextNode(w.word));}
         bub.appendChild(document.createTextNode(' '));
       });
     } else if(isCur&&isU&&lvl===3){
-      var em=document.createElement('em'); em.style.opacity='.35'; em.textContent='Emlékezetből…'; bub.appendChild(em);
+      var em=document.createElement('em');em.style.opacity='.35';em.textContent='Emlékezetből…';bub.appendChild(em);
     } else { bub.textContent=line.text; }
-
     wrap.appendChild(bub);
-    if(isU){ var ud=document.createElement('div'); ud.className='dot u'; ud.textContent=line.speaker; wrap.appendChild(ud); }
+    if(isU){var ud=document.createElement('div');ud.className='dot u';ud.textContent=line.speaker;wrap.appendChild(ud);}
     box.appendChild(wrap);
   });
   var cur=box.querySelector('.cur');
